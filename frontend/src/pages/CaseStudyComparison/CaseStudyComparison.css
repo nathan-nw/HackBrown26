@@ -1,0 +1,212 @@
+/* CaseStudyComparison.css */
+
+:root {
+  --csc-bg-cream: #F9F7F2;
+  --csc-primary: #00854A;       /* Signal Green */
+  --csc-forest: #002B15;        /* Deep Forest Green */
+  --csc-card-light: #F3F3F3;    /* Subtle Light Grey */
+  --csc-border-refined: #E5E1D8;/* Soft border color */
+  --csc-muted-text: #5A6660;    /* Muted version of forest green */
+  
+  --font-display: 'Newsreader', serif;
+  --font-sans: 'Noto Sans', sans-serif;
+}
+
+.csc-page-container {
+  background-color: var(--csc-bg-cream);
+  min-height: 100vh;
+  color: var(--csc-forest);
+  font-family: var(--font-sans);
+  overflow-y: auto; /* Ensure scroll if parent limits */
+  height: 100vh; /* Actually, if we use overflow-y auto, we want fixed height 100vh so this container scrolls */
+}
+
+.csc-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Typography Utilities */
+.csc-font-display { font-family: var(--font-display); }
+.csc-font-sans { font-family: var(--font-sans); }
+.csc-italic { font-style: italic; }
+.csc-uppercase { text-transform: uppercase; }
+.csc-tracking-widest { letter-spacing: 0.2em; }
+
+/* Selection View Styles */
+.csc-selection-grid {
+  display: flex;
+  min-height: 80vh;
+}
+
+.csc-selection-panel {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--csc-border-refined);
+}
+
+.csc-selection-panel:last-child {
+  border-right: none;
+}
+
+/* Picker Components */
+.csc-tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--csc-border-refined);
+}
+
+.csc-tab {
+  background: none;
+  border: none;
+  padding-bottom: 12px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--csc-muted-text);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.csc-tab.active {
+  color: var(--csc-forest);
+  border-bottom-color: var(--csc-primary);
+}
+
+.csc-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.csc-card-item {
+  padding: 16px;
+  border: 1px solid var(--csc-border-refined);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.csc-card-item:hover {
+  border-color: var(--csc-primary);
+  transform: translateY(-1px);
+}
+
+.csc-card-item.selected {
+  border-color: var(--csc-primary);
+  background-color: #F0FDF4; /* light green tint */
+  box-shadow: 0 0 0 1px var(--csc-primary);
+}
+
+/* Comparison View Layout */
+.csc-header {
+  padding-bottom: 48px;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--csc-border-refined);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.csc-comp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  position: relative;
+}
+
+/* Vertical Divider */
+.csc-comp-divider {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--csc-border-refined);
+  transform: translateX(-50%);
+}
+
+.csc-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  z-index: 10;
+}
+
+/* Radar Chart Card */
+.csc-radar-card {
+  background-color: var(--csc-card-light);
+  border: 1px solid var(--csc-border-refined);
+  border-radius: 12px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Strategy Cards */
+.csc-strategy-card {
+  background-color: var(--csc-card-light);
+  border: 1px solid var(--csc-border-refined);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.csc-strategy-card.winner {
+  border-color: rgba(0, 133, 74, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.csc-winner-badge {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 4px 12px;
+  background-color: var(--csc-primary);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+/* Coherence Section */
+.csc-coherence-section {
+  margin-top: 128px;
+  margin-bottom: 96px;
+}
+
+.csc-insight-card {
+  background-color: var(--csc-card-light);
+  border: 1px solid var(--csc-border-refined);
+  border-radius: 12px;
+  padding: 40px;
+  display: flex;
+  gap: 64px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .csc-selection-grid,
+  .csc-comp-grid {
+    flex-direction: column;
+    display: flex;
+  }
+  
+  .csc-comp-divider {
+    display: none;
+  }
+  
+  .csc-insight-card {
+    flex-direction: column;
+    gap: 32px;
+  }
+}
