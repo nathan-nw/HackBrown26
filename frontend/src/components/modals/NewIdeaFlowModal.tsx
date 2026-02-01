@@ -190,7 +190,7 @@ export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => 
              <Loader2 size={16} className="nif-spinner-constant" />
           </div>
           
-          <div>
+          <div className="nif-sidebar-scrollbox">
             {!pattern ? (
                  <div className="nif-sidebar-card nif-sidebar-card-loading">
                     <p className="nif-sidebar-text-muted">
@@ -200,27 +200,37 @@ export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => 
             ) : (
                 <div className="nif-sidebar-results fade-in">
                     {/* Narrow Match */}
-                    <div className="nif-match-block">
-                        <div className="nif-match-header">
-                             <span className="nif-match-badge narrow">Narrow</span>
-                             <span className="nif-match-company">{pattern.narrow.company}</span>
-                        </div>
-                        <p className="nif-sidebar-text-sm">{pattern.narrow.sentence}</p>
+                    <div className="nif-sidebar-card">
+                        <h4 className="nif-sidebar-title">The Narrow Wedge</h4>
+                        <p className="nif-sidebar-text">
+                            {pattern.narrow.company !== 'None' ? (
+                                <>
+                                    Companies like <span style={{ fontWeight: 600, color: 'var(--color-forest-dark)' }}>{pattern.narrow.company}</span> {pattern.narrow.sentence}
+                                </>
+                            ) : (
+                                pattern.narrow.sentence
+                            )}
+                        </p>
                     </div>
 
                     {/* Wide Match */}
-                    <div className="nif-match-block" style={{ marginTop: '12px' }}>
-                        <div className="nif-match-header">
-                             <span className="nif-match-badge wide">Wide</span>
-                             <span className="nif-match-company">{pattern.wide.company}</span>
-                        </div>
-                        <p className="nif-sidebar-text-sm">{pattern.wide.sentence}</p>
+                    <div className="nif-sidebar-card">
+                        <h4 className="nif-sidebar-title">Secondary Pattern</h4>
+                        <p className="nif-sidebar-text">
+                            {pattern.wide.company !== 'None' ? (
+                                <>
+                                    Similar to <span style={{ fontWeight: 600, color: 'var(--color-forest-dark)' }}>{pattern.wide.company}</span>, {pattern.wide.sentence}
+                                </>
+                            ) : (
+                                pattern.wide.sentence
+                            )}
+                        </p>
                     </div>
 
                      {/* Why Matches */}
-                    <div className="nif-sidebar-footer" style={{ marginTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '12px' }}>
-                        <p className="nif-sidebar-label" style={{ marginBottom: '0.25rem', fontSize: '0.75rem' }}>Why this matters</p>
-                        <p className="nif-sidebar-text" style={{ fontStyle: 'italic', fontFamily: 'var(--font-headline)', fontSize: '0.85rem' }}>
+                    <div className="nif-sidebar-footer-v2">
+                        <p className="nif-sidebar-label" style={{ marginBottom: '0.5rem' }}>Why this matters</p>
+                        <p className="nif-sidebar-text" style={{ fontStyle: 'italic', fontFamily: 'var(--font-headline)' }}>
                             {pattern.why}
                         </p>
                     </div>
