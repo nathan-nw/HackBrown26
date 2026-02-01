@@ -1,4 +1,19 @@
-import type { Edge, Node } from 'reactflow';
+
+// Basic types for backend use
+export interface Node {
+  id: string;
+  type?: string;
+  position: { x: number; y: number };
+  data: any;
+  [key: string]: any;
+}
+
+export interface Edge {
+  id: string;
+  source: string;
+  target: string;
+  [key: string]: any;
+}
 
 export const initialNodes: Node[] = [
   {

@@ -1,5 +1,5 @@
-import { mockOutliers } from '../../data/mockOutliers';
-import type { OutlierCompany } from '../../data/mockOutliers';
+import { useState, useEffect } from 'react';
+import type { OutlierCompany } from '../../types';
 import '../../styles/outliers.css';
 
 interface OutliersBarProps {
@@ -7,6 +7,23 @@ interface OutliersBarProps {
 }
 
 export const OutliersBar = ({ onSelect }: OutliersBarProps) => {
+  const [outliers, setOutliers] = useState<OutlierCompany[]>([]);
+
+  useEffect(() => {
+    const fetchOutliers = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/outliers`);
+        if (response.ok) {
+          const data = await response.json();
+          setOutliers(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch outliers:', error);
+      }
+    };
+    fetchOutliers();
+  }, []);
+
   return (
     <div className="outliers-section">
       <div className="outliers-header-row">
@@ -15,7 +32,7 @@ export const OutliersBar = ({ onSelect }: OutliersBarProps) => {
       </div>
       
       <div className="outliers-scroll-row">
-        {mockOutliers.map(company => (
+        {outliers.map(company => (
           <button 
             key={company.id} 
             className="outlier-chip" 
