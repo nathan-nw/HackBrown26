@@ -1,8 +1,57 @@
 import { Handle, Position, type NodeProps } from 'reactflow';
 import { MoreHorizontal, Triangle } from 'lucide-react';
 import '../styles/components.css';
+import { REQUIRED_DECISIONS } from '../data/requiredDecisions';
+
+const renderNodeSummary = (type: string, data: any) => {
+    switch (type) {
+        case 'PRICING':
+            if (data.pricingModel) {
+                 return (
+                    <div style={{ marginTop: '8px', color: 'var(--primary)', fontWeight: 600 }}>
+                        {data.pricingModel}: {data.price || 'TBD'} {data.billingFrequency ? `/ ${data.billingFrequency}` : ''}
+                    </div>
+                 );
+            }
+            return null;
+        case 'MARKET': 
+            if (data.targetCustomer) {
+                 return (
+                    <div style={{ marginTop: '8px', color: 'var(--primary)', fontWeight: 600 }}>
+                        {data.targetCustomer} <br/>
+                        <span style={{ fontSize: '0.85em', fontWeight: 400, color: 'rgba(255,255,255,0.7)' }}>{data.beachhead}</span>
+                    </div>
+                 );
+            }
+            return null;
+        case 'DISTRIBUTION':
+            if (data.channel) {
+                return (
+                    <div style={{ marginTop: '8px', color: 'var(--primary)', fontWeight: 600 }}>
+                        {data.channel} {data.cac ? `(CAC: ${data.cac})` : ''}
+                    </div>
+                );
+            }
+            return null;
+         case 'PROBLEM':
+            if (data.painPoints) {
+                return (
+                    <div style={{ marginTop: '8px', color: 'var(--primary)', fontWeight: 600, fontSize: '0.9em', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'  }}>
+                        {data.painPoints}
+                    </div>
+                );
+            }
+            return null;
+        default:
+            // For other types, try to find a key field or return nothing if just generic
+            return null;
+    }
+};
 
 export const DarkNode = ({ id, data }: NodeProps) => {
+  const decisionConfig = REQUIRED_DECISIONS.find(d => d.type === data.type);
+  const description = decisionConfig?.description || data.label;
+
   return (
     <div className="node-card node-dark">
       <Handle type="target" position={Position.Left} />
@@ -23,7 +72,10 @@ export const DarkNode = ({ id, data }: NodeProps) => {
         </button>
       </div>
       <div className="node-body">
-        {data.label}
+        <div style={{ fontSize: '0.9em', opacity: 0.8, marginBottom: '4px' }}>
+             {description}
+        </div>
+        {renderNodeSummary(data.type, data)}
       </div>
       <Handle type="source" position={Position.Right} />
     </div>

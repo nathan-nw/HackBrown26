@@ -34,8 +34,10 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
   const renderFields = () => {
     const type = node.data.type || 'DEFAULT';
 
-    // Common field: Label (Title)
-    const commonFields = (
+     const isSystemNode = type !== 'DEFAULT' && type !== 'PaperNode' && type !== undefined;
+
+     // Common field: Label (Title) - Only show for custom nodes
+    const commonFields = !isSystemNode ? (
         <div className="nif-form-group">
             <label className="nif-label">Label / Title</label>
             <input 
@@ -45,7 +47,7 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
                 onChange={(e) => handleChange('label', e.target.value)} // Update label primarily
             />
         </div>
-    );
+    ) : null;
 
     switch (type) {
         case 'PRICING':
@@ -77,28 +79,31 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
                             onChange={(e) => handleChange('price', e.target.value)}
                         />
                     </div>
-                    <div className="nif-form-group">
-                        <label className="nif-label">Billing Frequency</label>
-                         <div className="nif-chip-grid">
-                            {['Monthly', 'Yearly', 'One-off'].map((opt) => (
-                                <button
-                                    key={opt}
-                                    className={`nif-chip-wrapper ${formData.billingFrequency === opt ? 'active' : ''}`}
-                                    onClick={() => handleChange('billingFrequency', opt)}
-                                    style={{ 
-                                        padding: '8px 16px', 
-                                        border: formData.billingFrequency === opt ? '1px solid var(--primary)' : '1px solid #2C4A3A',
-                                        background: formData.billingFrequency === opt ? 'rgba(19, 236, 91, 0.1)' : 'transparent',
-                                        color: formData.billingFrequency === opt ? 'var(--primary)' : 'inherit',
-                                        borderRadius: '20px',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    {opt}
-                                </button>
-                            ))}
+                    
+                    {(formData.pricingModel === 'subscription' || formData.pricingModel === 'freemium') && (
+                        <div className="nif-form-group">
+                            <label className="nif-label">Billing Frequency</label>
+                            <div className="nif-chip-grid">
+                                {['Monthly', 'Yearly', 'One-off'].map((opt) => (
+                                    <button
+                                        key={opt}
+                                        className={`nif-chip-wrapper ${formData.billingFrequency === opt ? 'active' : ''}`}
+                                        onClick={() => handleChange('billingFrequency', opt)}
+                                        style={{ 
+                                            padding: '8px 16px', 
+                                            border: formData.billingFrequency === opt ? '1px solid var(--primary)' : '1px solid #2C4A3A',
+                                            background: formData.billingFrequency === opt ? 'rgba(19, 236, 91, 0.1)' : 'transparent',
+                                            color: formData.billingFrequency === opt ? 'var(--primary)' : 'var(--color-forest-deep)',
+                                            borderRadius: '20px',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        {opt}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </>
             );
         

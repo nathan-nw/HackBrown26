@@ -16,6 +16,7 @@ import '../styles/canvas.css';
 import { Button } from './ui/Button';
 import { Maximize, Plus, Minus, ChevronUp, ChevronDown } from 'lucide-react';
 import { RequiredDecisionsBar } from './Canvas/RequiredDecisionsBar';
+import { REQUIRED_DECISIONS } from '../data/requiredDecisions';
 import { ChecklistPanel } from './Canvas/ChecklistPanel';
 import { useSocket } from '../hooks/useSocket';
 import { Cursors } from './Canvas/Cursors';
@@ -171,13 +172,15 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
        y: window.innerHeight / 2 - 100 
      };
 
+     const decision = REQUIRED_DECISIONS.find(d => d.type === type);
+     
      const newNode = {
        id,
        type: 'darkNode',
        position: finalPos,
        data: { 
-         title: type, 
-         label: `Define your ${type} strategy here.`,
+         title: decision?.label || type, 
+         label: decision?.description || `Define your ${type} strategy here.`, // Use description as the "detailed one-line"
          type: type 
        },
      };
