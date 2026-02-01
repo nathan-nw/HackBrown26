@@ -65,10 +65,10 @@ export const LandingPage = () => {
           <span className="logo-text">Sequoia Genesis</span>
         </div>
         <div className="flex items-center gap-8">
-          <a href="#" className="nav-link hidden md:block" style={{ display: 'none' }}>Manifesto</a>
-          <a href="#" className="nav-link hidden md:block" style={{ display: 'none' }}>Portfolio</a>
-          <a href="#" className="nav-link">Manifesto</a>
-          <a href="#" className="nav-link">Portfolio</a>
+          {/* <a href="#" className="nav-link hidden md:block" style={{ display: 'none' }}>Manifesto</a>
+          <a href="#" className="nav-link hidden md:block" style={{ display: 'none' }}>Portfolio</a> */}
+          {/* <a href="#" className="nav-link">Manifesto</a>
+          <a href="#" className="nav-link">Portfolio</a> */}
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
             {isDark ? (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path></svg>
@@ -130,7 +130,7 @@ export const LandingPage = () => {
       {/* Footer - z-index: 10 */}
       <footer className="landing-footer">
         <p className="footer-text">
-            © 2024 Sequoia Genesis. Defined by audacity.
+            © 2026 Sequoia Genesis. Defined by audacity.
         </p>
       </footer>
     </div>

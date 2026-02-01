@@ -255,7 +255,7 @@ export const CaseStudyComparison = () => {
                       <span>Confidential Memorandum</span>
                       <span>No. 882-01</span>
                   </div>
-                  <div>&copy; 2024 Strategic Engine Methodology</div>
+                  <div>&copy; 2026 Sequoia Genesis</div>
               </footer>
 
            </div>
