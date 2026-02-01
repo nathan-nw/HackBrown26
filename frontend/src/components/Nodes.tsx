@@ -117,6 +117,7 @@ export const PaperNode = ({ id, data }: NodeProps) => {
       </div>
 
       <div className="node-paper-footer">
+        {/*
         {(data.strategicFit || data.marketRisk) && (
           <>
             <div className="metrics-row">
@@ -144,6 +145,7 @@ export const PaperNode = ({ id, data }: NodeProps) => {
              </div>
           </div>
         )}
+        */}
       </div>
 
       <Handle type="source" position={Position.Right} style={{ background: 'var(--primary)', width: '12px', height: '12px', right: '-6px' }} />
