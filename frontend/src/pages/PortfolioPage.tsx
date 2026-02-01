@@ -4,10 +4,14 @@ import { PortfolioCard } from '../components/Portfolio/PortfolioCard';
 import { CreateNewIdeaCard } from '../components/Portfolio/CreateNewIdeaCard';
 import { TopNav } from '../components/TopNav';
 import { Filter, ArrowUpDown, Search } from 'lucide-react';
+import { OutliersBar } from '../components/Outliers/OutliersBar';
+import { OutlierModal } from '../components/Outliers/OutlierModal';
+import type { OutlierCompany } from '../data/mockOutliers';
 import '../styles/portfolio.css';
 
 export const PortfolioPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedOutlier, setSelectedOutlier] = useState<OutlierCompany | null>(null);
 
   const filteredPortfolio = useMemo(() => {
     const query = searchQuery.toLowerCase();
@@ -60,6 +64,8 @@ export const PortfolioPage = () => {
               Manage and validate your high-conviction startup hypotheses.
             </p>
           </header>
+
+          <OutliersBar onSelect={setSelectedOutlier} />
           
           <div className="portfolio-grid">
             <CreateNewIdeaCard />
@@ -70,6 +76,12 @@ export const PortfolioPage = () => {
           
         </div>
       </div>
+
+      <OutlierModal 
+        isOpen={!!selectedOutlier} 
+        company={selectedOutlier} 
+        onClose={() => setSelectedOutlier(null)} 
+      />
     </div>
   );
 };

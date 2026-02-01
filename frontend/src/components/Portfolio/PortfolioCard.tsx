@@ -4,10 +4,19 @@ import type { PortfolioItem } from '../../data/mockPortfolio';
 
 interface PortfolioCardProps {
   item: PortfolioItem;
+  onClick?: () => void;
 }
 
-export const PortfolioCard = ({ item }: PortfolioCardProps) => {
+export const PortfolioCard = ({ item, onClick }: PortfolioCardProps) => {
   const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      navigate('/planning');
+    }
+  };
 
   const getRiskClass = (risk: string) => {
     switch (risk) {
@@ -21,7 +30,7 @@ export const PortfolioCard = ({ item }: PortfolioCardProps) => {
   return (
     <div 
       className="portfolio-card" 
-      onClick={() => navigate('/planning')}
+      onClick={handleCardClick}
     >
       <div className="card-top-accent"></div>
       
