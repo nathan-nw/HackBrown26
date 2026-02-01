@@ -1,19 +1,4 @@
-
-// Basic types for backend use
-export interface Node {
-  id: string;
-  type?: string;
-  position: { x: number; y: number };
-  data: any;
-  [key: string]: any;
-}
-
-export interface Edge {
-  id: string;
-  source: string;
-  target: string;
-  [key: string]: any;
-}
+import { Node, Edge } from './outlierBoards';
 
 export const initialNodes: Node[] = [
   {

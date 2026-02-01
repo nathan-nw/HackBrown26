@@ -23,7 +23,13 @@ export const PortfolioPage = () => {
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/portfolio`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/portfolio`,{
+          headers: {
+            // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
+
+            'Content-Type': 'application/json',
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setPortfolioItems(data);
