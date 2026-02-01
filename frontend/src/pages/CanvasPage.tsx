@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import '../styles/theme.css';
 import '../styles/layout.css';
@@ -6,6 +7,7 @@ import { InsightsPanel } from '../components/InsightsPanel';
 import { CanvasBoard } from '../components/CanvasBoard';
 
 export const CanvasPage = () => {
+  const { ideaId } = useParams();
   const [isInsightsOpen, setIsInsightsOpen] = useState(true);
 
   return (
@@ -20,7 +22,7 @@ export const CanvasPage = () => {
       }}
     >
       <TopNav />
-      <CanvasBoard />
+      <CanvasBoard ideaId={ideaId} />
       <InsightsPanel isOpen={isInsightsOpen} onToggle={() => setIsInsightsOpen(!isInsightsOpen)} />
     </div>
   );

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import type { OutlierCompany } from '../../data/mockOutliers';
+import type { OutlierCompany } from '../../types';
 import { PortfolioCard } from '../Portfolio/PortfolioCard';
 import { OutlierBoardModalView } from './OutlierBoardModalView';
 import '../../styles/outliers.css';

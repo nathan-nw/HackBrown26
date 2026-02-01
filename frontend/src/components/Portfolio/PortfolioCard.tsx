@@ -1,6 +1,6 @@
 import { MoreHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { PortfolioItem } from '../../data/mockPortfolio';
+import type { PortfolioItem } from '../../types';
 
 interface PortfolioCardProps {
   item: PortfolioItem;
@@ -14,7 +14,7 @@ export const PortfolioCard = ({ item, onClick }: PortfolioCardProps) => {
     if (onClick) {
       onClick();
     } else {
-      navigate('/planning');
+      navigate(`/planning/${item.id}`);
     }
   };
 

@@ -1,5 +1,19 @@
 
-import type { Node, Edge } from 'reactflow';
+// Basic types for backend use, simplified from reactflow
+export interface Node {
+  id: string;
+  type?: string;
+  position: { x: number; y: number };
+  data: any;
+  [key: string]: any;
+}
+
+export interface Edge {
+  id: string;
+  source: string;
+  target: string;
+  [key: string]: any;
+}
 
 export type OutlierBoard = {
   id: string;
@@ -204,6 +218,96 @@ export const OUTLIER_BOARDS: Record<string, OutlierBoard> = {
       suggestedActionBody: 'Batching orders and predicting prep times is the only way to unit economics.',
       marketRiskLabel: 'High',
       marketRiskText: 'The space is crowded with well-funded competitors (GrubHub, UberEats).'
+    }
+  },
+  '1': {
+    id: '1',
+    title: 'Hyperion',
+    subtitle: 'DeFi Infrastructure Layer',
+    nodes: [
+      { id: '1', type: 'paperNode', position: { x: 400, y: 100 }, data: { title: 'CORE VALUE', label: 'HFT Execution Layer', sublabel: 'High-frequency trading execution layer for decentralized exchanges on L2.', category: 'DEFI INFRASTRUCTURE', wedge: 'Latency Arbitrage', strategicFit: 94, marketRisk: 'Medium', progress: 75 } },
+      { id: '2', type: 'darkNode', position: { x: 100, y: 300 }, data: { title: 'MARKET', label: 'L2 DEX Traders', type: 'USER' } },
+      { id: '3', type: 'darkNode', position: { x: 700, y: 300 }, data: { title: 'TECH', label: 'Optimistic Rollups', type: 'TECH' } },
+      { id: '4', type: 'darkNode', position: { x: 400, y: 450 }, data: { title: 'STRATEGY', label: 'MEV Protection', type: 'MOAT' } },
+    ],
+    edges: [
+      { id: 'e1-2', source: '1', target: '2', ...animatedEdge },
+      { id: 'e1-3', source: '1', target: '3', ...animatedEdge },
+      { id: 'e1-4', source: '1', target: '4', ...animatedEdge },
+    ],
+    insights: {
+      strategicFitScore: 94,
+      strategicFitText: 'Strong technical moat in a rapidly growing L2 ecosystem.',
+      suggestedActionTitle: 'Partnership',
+      suggestedActionBody: 'Partner with major L2 aggregators to become the default execution backend.',
+      marketRiskLabel: 'Medium',
+      marketRiskText: 'Regulatory uncertainty around DeFi execution layers remains a concern.'
+    }
+  },
+  '2': {
+    id: '2',
+    title: 'Oasis',
+    subtitle: 'Consumer Social',
+    nodes: [
+      { id: '1', type: 'paperNode', position: { x: 400, y: 100 }, data: { title: 'CORE LOOP', label: 'Ephemeral Social Clusters', sublabel: 'Social clusters for high-net-worth individuals centered around events.', category: 'CONSUMER SOCIAL', wedge: 'Event Gating', strategicFit: 88, marketRisk: 'High', progress: 40 } },
+      { id: '2', type: 'darkNode', position: { x: 150, y: 350 }, data: { title: 'USER', label: 'HNW Individuals', type: 'SEGMENT' } },
+      { id: '3', type: 'darkNode', position: { x: 650, y: 350 }, data: { title: 'GROWTH', label: 'Exclusivity/FOMO', type: 'VIRALITY' } },
+    ],
+    edges: [
+      { id: 'e1-2', source: '1', target: '2', ...animatedEdge },
+      { id: 'e1-3', source: '1', target: '3', ...animatedEdge },
+    ],
+    insights: {
+      strategicFitScore: 88,
+      strategicFitText: 'High engagement potential but scaling exclusivity is challenging.',
+      suggestedActionTitle: 'Launch Beta',
+      suggestedActionBody: 'Launch with a curated list of initial events to seed the network effect.',
+      marketRiskLabel: 'High',
+      marketRiskText: 'Consumer social is hit-or-miss; retention mechanics need to be proven.'
+    }
+  },
+  '3': {
+    id: '3',
+    title: 'Synthetix',
+    subtitle: 'Generative AI Marketing',
+    nodes: [
+      { id: '1', type: 'paperNode', position: { x: 400, y: 100 }, data: { title: 'CORE PRODUCT', label: 'Auto Video Synthesis', sublabel: 'Automated video synthesis for enterprise marketing campaigns at scale.', category: 'GENERATIVE AI', wedge: 'Cost Reduction', strategicFit: 92, marketRisk: 'Low', progress: 90 } },
+      { id: '2', type: 'darkNode', position: { x: 200, y: 300 }, data: { title: 'Customer', label: 'Enterprise Marketing', type: 'B2B' } },
+      { id: '3', type: 'darkNode', position: { x: 600, y: 300 }, data: { title: 'Value Prop', label: '10x Faster Production', type: 'ROI' } },
+    ],
+    edges: [
+      { id: 'e1-2', source: '1', target: '2', ...animatedEdge },
+      { id: 'e1-3', source: '1', target: '3', ...animatedEdge },
+    ],
+    insights: {
+      strategicFitScore: 92,
+      strategicFitText: 'Clear ROI for enterprise customers makes sales cycles predictable.',
+      suggestedActionTitle: 'Integrate CRM',
+      suggestedActionBody: 'Build connectors for Salesforce/HubSpot to automate campaign flows.',
+      marketRiskLabel: 'Low',
+      marketRiskText: 'Generative AI space is crowded, but vertical solution for enterprise is defensible.'
+    }
+  },
+  '4': {
+    id: '4',
+    title: 'Vertex',
+    subtitle: 'Industrial IoT',
+    nodes: [
+      { id: '1', type: 'paperNode', position: { x: 400, y: 100 }, data: { title: 'CORE TECH', label: 'Predictive Maintenance', sublabel: 'Sensors for legacy manufacturing equipment.', category: 'INDUSTRIAL IOT', wedge: 'Downtime Prevention', strategicFit: 85, marketRisk: 'Medium', progress: 60 } },
+      { id: '2', type: 'darkNode', position: { x: 100, y: 300 }, data: { title: 'Target', label: 'Factory Managers', type: 'USER' } },
+      { id: '3', type: 'darkNode', position: { x: 700, y: 300 }, data: { title: 'Install', label: 'Retrofit Capability', type: 'DEPLOYMENT' } },
+    ],
+    edges: [
+      { id: 'e1-2', source: '1', target: '2', ...animatedEdge },
+      { id: 'e1-3', source: '1', target: '3', ...animatedEdge },
+    ],
+    insights: {
+      strategicFitScore: 85,
+      strategicFitText: 'Solving a high-cost problem for legacy industries.',
+      suggestedActionTitle: 'Pilot Program',
+      suggestedActionBody: 'Secure 3-5 pilot factories to gather real-world dataset for ML models.',
+      marketRiskLabel: 'Medium',
+      marketRiskText: 'Sales cycles in manufacturing can be long; hardware iteration is slow.'
     }
   }
 };

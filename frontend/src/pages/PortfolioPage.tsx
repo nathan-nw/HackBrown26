@@ -1,12 +1,12 @@
-import { useState, useMemo } from 'react';
-import { mockPortfolio } from '../data/mockPortfolio';
+import { useState, useMemo, useEffect } from 'react';
+
 import { PortfolioCard } from '../components/Portfolio/PortfolioCard';
 import { CreateNewIdeaCard } from '../components/Portfolio/CreateNewIdeaCard';
 import { TopNav } from '../components/TopNav';
 import { Filter, ArrowUpDown, Search } from 'lucide-react';
 import { OutliersBar } from '../components/Outliers/OutliersBar';
 import { OutlierModal } from '../components/Outliers/OutlierModal';
-import type { OutlierCompany } from '../data/mockOutliers';
+import type { PortfolioItem, OutlierCompany } from '../types';
 import '../styles/portfolio.css';
 
 export const PortfolioPage = () => {
@@ -14,10 +14,30 @@ export const PortfolioPage = () => {
   const [selectedOutlier, setSelectedOutlier] = useState<OutlierCompany | null>(null);
   const [sortBy, setSortBy] = useState<'fit' | 'validation'>('fit');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/portfolio`);
+        if (response.ok) {
+          const data = await response.json();
+          setPortfolioItems(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch portfolio:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPortfolio();
+  }, []);
 
   const filteredPortfolio = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    const filtered = mockPortfolio.filter(item => 
+    const filtered = portfolioItems.filter(item => 
       item.title.toLowerCase().includes(query) ||
       item.category.toLowerCase().includes(query) ||
       item.description.toLowerCase().includes(query)
@@ -29,7 +49,7 @@ export const PortfolioPage = () => {
       }
       return b.validationProgress - a.validationProgress;
     });
-  }, [searchQuery, sortBy]);
+  }, [searchQuery, sortBy, portfolioItems]);
 
   return (
     <div className="portfolio-page">
@@ -139,9 +159,13 @@ export const PortfolioPage = () => {
           
           <div className="portfolio-grid">
             <CreateNewIdeaCard />
-            {filteredPortfolio.map(item => (
-              <PortfolioCard key={item.id} item={item} />
-            ))}
+            {loading ? (
+              <div style={{ color: 'white' }}>Loading...</div>
+            ) : (
+              filteredPortfolio.map(item => (
+                <PortfolioCard key={item.id} item={item} />
+              ))
+            )}
           </div>
           
         </div>

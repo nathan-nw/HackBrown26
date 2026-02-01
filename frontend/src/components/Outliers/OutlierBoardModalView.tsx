@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import ReactFlow, { 
   Background, 
   ReactFlowProvider,
@@ -9,7 +9,6 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { ChevronLeft } from 'lucide-react';
 import { DarkNode, PaperNode } from '../Nodes';
-import { OUTLIER_BOARDS } from '../../data/outlierBoards';
 import '../../styles/canvas.css';
 
 interface OutlierBoardModalViewProps {
@@ -24,20 +23,38 @@ const nodeTypes = {
 
 // Internal component to handle ReactFlow hooks
 const BoardContent = ({ outlierId, onBack }: OutlierBoardModalViewProps) => {
-  const { fitView } = useReactFlow();
+  const { fitView, setNodes, setEdges } = useReactFlow();
   
-  const board = OUTLIER_BOARDS[outlierId];
-
-  // If no board data found, fallback or just empty
-  const nodes = useMemo(() => board?.nodes || [], [board]);
-  const edges = useMemo(() => board?.edges || [], [board]);
+  const [board, setBoard] = useState<any>(null); // Use proper type if available, or any for now
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fit view on mount after a short delay to ensure rendering
-    setTimeout(() => {
-        fitView({ padding: 0.2, duration: 800 });
-    }, 100);
-  }, [outlierId, fitView]);
+    const fetchBoard = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/ideas/${outlierId}`);
+        if (response.ok) {
+           const data = await response.json();
+           setBoard(data);
+           setNodes(data.nodes || []);
+           setEdges(data.edges || []);
+           
+            // Fit view on mount after a short delay to ensure rendering
+            setTimeout(() => {
+                fitView({ padding: 0.2, duration: 800 });
+            }, 100);
+        }
+      } catch (error) {
+        console.error('Failed to fetch board:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBoard();
+  }, [outlierId, fitView, setNodes, setEdges]);
+
+  if (loading) {
+      return <div style={{ color: 'white', padding: 20 }}>Loading...</div>;
+  }
 
   if (!board) {
       return <div style={{ color: 'white', padding: 20 }}>Board data not found for {outlierId}</div>;
@@ -48,8 +65,8 @@ const BoardContent = ({ outlierId, onBack }: OutlierBoardModalViewProps) => {
       {/* Canvas Area */}
       <div style={{ flex: 1, position: 'relative', height: '100%' }}>
          <ReactFlow
-            defaultNodes={nodes}
-            defaultEdges={edges}
+            defaultNodes={[]}
+            defaultEdges={[]}
             nodeTypes={nodeTypes}
             nodesDraggable={true}
             nodesConnectable={false}
