@@ -1,4 +1,5 @@
 import { MoreHorizontal } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { PortfolioItem } from '../../data/mockPortfolio';
 
 interface PortfolioCardProps {
@@ -6,6 +7,8 @@ interface PortfolioCardProps {
 }
 
 export const PortfolioCard = ({ item }: PortfolioCardProps) => {
+  const navigate = useNavigate();
+
   const getRiskClass = (risk: string) => {
     switch (risk) {
       case 'Low': return 'risk-low';
@@ -16,7 +19,10 @@ export const PortfolioCard = ({ item }: PortfolioCardProps) => {
   };
 
   return (
-    <div className="portfolio-card">
+    <div 
+      className="portfolio-card" 
+      onClick={() => navigate('/planning')}
+    >
       <div className="card-top-accent"></div>
       
       <div className="card-header">
@@ -24,7 +30,7 @@ export const PortfolioCard = ({ item }: PortfolioCardProps) => {
           <div className="card-category">{item.category}</div>
           <h3 className="card-title">{item.title}</h3>
         </div>
-        <button className="icon-btn">
+        <button className="icon-btn" onClick={(e) => e.stopPropagation()}>
           <MoreHorizontal size={20} />
         </button>
       </div>

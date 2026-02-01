@@ -1,4 +1,4 @@
-import { Box, Settings, Search, User } from 'lucide-react';
+import { Box, Settings, User } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/layout.css';
 import { Button } from './ui/Button';
@@ -6,13 +6,6 @@ import { Button } from './ui/Button';
 export const TopNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      alert("Asking VentureLabs AI: " + e.currentTarget.value);
-      e.currentTarget.value = '';
-    }
-  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -49,47 +42,10 @@ export const TopNav = () => {
         >
           Portfolio
         </Button>
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate('/planning')}
-          style={{ 
-             color: isActive('/planning') ? 'var(--primary)' : 'var(--text-secondary)',
-             borderBottom: isActive('/planning') ? '1px solid var(--primary)' : 'none',
-             borderRadius: 0,
-             paddingBottom: '4px'
-          }}
-        >
-          Canvas
-        </Button>
         <Button variant="ghost" style={{ color: 'var(--text-secondary)' }}>Network</Button>
       </div>
 
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', maxWidth: '400px', margin: '0 20px' }}>
-        <div style={{
-          background: 'rgba(255,255,255,0.05)',
-          borderRadius: '6px',
-          padding: '4px 12px',
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%',
-          border: '1px solid rgba(255,255,255,0.1)'
-        }}>
-          <Search size={16} color="var(--text-secondary)" style={{ marginRight: '8px' }} />
-          <input 
-            type="text" 
-            placeholder="Ask VentureLabs AI..." 
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'white',
-              width: '100%',
-              outline: 'none',
-              fontFamily: 'var(--font-body)',
-              fontSize: '14px'
-            }}
-            onKeyDown={handleKeyDown}
-          />
-        </div>
       </div>
 
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
