@@ -181,11 +181,15 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
        data: { 
          title: decision?.label || type, 
          label: decision?.description || `Define your ${type} strategy here.`, // Use description as the "detailed one-line"
-         type: type 
+         type: type,
+         isNew: true
        },
      };
 
      addNodes(newNode);
+     
+     // Automatically open edit modal for new nodes
+     setEditingNode(newNode);
      
      // Emit add change
      emitNodeChange([{ type: 'add', item: newNode }]);

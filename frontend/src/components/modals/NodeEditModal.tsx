@@ -12,6 +12,7 @@ interface NodeEditModalProps {
 
 export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalProps) => {
   const [formData, setFormData] = useState<any>({});
+  const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
     if (node && node.data) {
@@ -24,11 +25,6 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
 
   const handleChange = (field: string, value: any) => {
       setFormData((prev: any) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSave = () => {
-      onSave(node.id, formData);
-      onClose();
   };
 
   const renderFields = () => {
@@ -373,26 +369,83 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
     }
   };
 
+
+
+  // Validation Logic
+  const checkValidity = () => {
+      // If validation is needed (e.g. strict mode), check fields
+      // For now, checks if at least one key field is filled for the type
+      const type = node.data.type;
+      
+      switch (type) {
+          case 'PRICING': return !!formData.pricingModel && !!formData.price;
+          case 'MARKET': return !!formData.targetCustomer;
+          case 'DISTRIBUTION': return !!formData.channel;
+          case 'PROBLEM': return !!formData.painPoints;
+          case 'SEGMENT': return !!formData.personaName;
+          case 'SOLUTION': return !!formData.coreFeature;
+          case 'SIZING': return !!formData.tam; // minimal check
+          case 'EQUITY': return !!formData.foundersSplit;
+          case 'LAUNCH': return !!formData.launchStrategy;
+          case 'FRICTION': return !!formData.entryModel;
+          case 'PIT_STOP': return !!formData.pitStopFocus;
+          case 'EVOLUTION': return !!formData.evolutionStrategy;
+          case 'NARRATIVE': return !!formData.narrativeType;
+          default: return true; // Default/PaperNode logic - maybe check label/title if strict
+      }
+  };
+
+  const isValid = checkValidity();
+  const isLocked = node.data.isNew; // New nodes are locked from closing until saved
+
+  const handleSave = () => {
+      if (node.data.isNew && !isValid) {
+          setError("Please fill in the required fields to continue.");
+          return;
+      }
+      
+      // Remove isNew flag on save
+      const finalData = { ...formData, isNew: false };
+      onSave(node.id, finalData);
+      onClose();
+  };
+
   return (
-    <ModalBase isOpen={isOpen} onClose={onClose} className="nif-modal-container nif-modal-edit">
+    <ModalBase 
+        isOpen={isOpen} 
+        onClose={isLocked ? () => {} : onClose} 
+        className="nif-modal-container nif-modal-edit"
+    >
         <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-forest-dark)', margin: 0 }}>Edit {node.data.type ? node.data.type : 'Node'}</h2>
-                <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
-                    <X size={24} />
-                </button>
+                {!isLocked && (
+                    <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                        <X size={24} />
+                    </button>
+                )}
             </div>
 
             <div className="nif-form-stack" style={{ flex: 1 }}>
                 {renderFields()}
             </div>
 
-            <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-                <button onClick={onClose} className="nif-btn-cancel">Cancel</button>
-                 <button onClick={handleSave} className="nif-btn-primary" style={{ width: 'auto', padding: '0 24px' }}>
-                    <Save size={18} />
-                    Save Changes
-                </button>
+            <div style={{ marginTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '12px' }}>
+                {error && <div style={{ color: '#EF4444', fontSize: '14px', marginBottom: '4px' }}>{error}</div>}
+                
+                <div style={{ display: 'flex', gap: '12px' }}>
+                    {!isLocked && (
+                        <button onClick={onClose} className="nif-btn-cancel">Cancel</button>
+                    )}
+                     <button 
+                        onClick={handleSave} 
+                        className="nif-btn-primary" 
+                        style={{ width: 'auto', padding: '0 24px' }}
+                    >
+                        <Save size={18} />
+                        {node.data.isNew ? 'Save & Continue' : 'Save Changes'}
+                    </button>
+                </div>
             </div>
         </div>
     </ModalBase>
