@@ -69,98 +69,191 @@
 /* Paper Node */
 .node-paper {
   background: white;
-  border-radius: 12px;
-  width: 280px;
+  border-radius: 4px; /* More squared as per new design? Or keep rounded? Design shows slight round */
+  width: 340px; /* Wider */
   padding: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   color: #1A3326;
   font-family: 'Manrope', sans-serif;
   text-align: left;
   border: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .node-paper-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .node-paper-title {
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   color: #6B7280;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.edit-icon {
-  width: 28px;
-  height: 28px;
-  background: #F3F4F6;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #374151;
+.menu-icon {
   cursor: pointer;
-}
-
-.edit-icon:hover {
-  background: #E5E7EB;
+  opacity: 0.6;
 }
 
 .node-paper-heading {
   font-family: 'Noto Serif', serif;
-  font-size: 24px;
-  line-height: 1.2;
-  font-weight: 500;
+  font-size: 32px; /* Larger */
+  line-height: 1.1;
+  font-weight: 400;
   color: #111827;
-  margin: 0 0 8px 0;
+  margin: 0 0 16px 0;
 }
 
 .node-paper-sublabel {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
+  color: #4B5563;
+  margin: 0 0 12px 0; /* Reduced margin to wedge */
+}
+
+/* Primary Wedge */
+.primary-wedge-container {
+  background: #E8EDF2; /* Light gray box */
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-top: 0; /* User requested NO GAP / dynamic */
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wedge-label {
+  font-size: 10px;
+  text-transform: uppercase;
   color: #6B7280;
-  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.wedge-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wedge-icon {
+  color: #4B5563;
+}
+
+.wedge-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
 }
 
 .node-paper-footer {
-  margin-top: 24px;
+  margin-top: auto; /* Push to bottom if height fixed, otherwise just flow */
 }
 
+/* Metrics Row */
+.metrics-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-item.right-align {
+  align-items: flex-end;
+}
+
+.metric-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #9CA3AF;
+  font-weight: 600;
+}
+
+.metric-value-large {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  font-family: 'Manrope', sans-serif;
+}
+
+.metric-tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.metric-tag.medium {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.metric-tag.low {
+  background: #DCFCE7;
+  color: #16A34A;
+}
+
+.metric-tag.high {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.divider-line {
+  height: 1px;
+  background: #F3F4F6;
+  margin-bottom: 12px;
+}
+
+/* Progress Bar Updates */
 .progress-container {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .progress-bar-bg {
   width: 100%;
-  height: 4px;
-  background: #E5E7EB;
-  border-radius: 2px;
-  margin-bottom: 8px;
+  height: 6px;
+  background: #E5E7EB; /* Lighter background */
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .progress-fill {
-  background: #22C55E; /* Green-500 */
+  background: #10B981; /* Emerald-500 */
   height: 100%;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 .progress-text {
   font-size: 12px;
   color: #9CA3AF;
-  display: none; /* Hidden in design update */
+  display: block; /* Show again */
 }
 
 .progress-percent {
   font-size: 12px;
   color: #6B7280;
-  align-self: flex-end;
-  margin-top: 4px; /* Adjust spacing to be below the bar */
 }
 
 .node-header {

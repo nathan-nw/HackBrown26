@@ -6,9 +6,13 @@ export const initialNodes: Node[] = [
     type: 'paperNode',
     position: { x: 400, y: 100 },
     data: { 
-      title: 'CORE LOOP', 
-      label: 'Solve for Power Users',
-      sublabel: 'Prioritize depth of features over breadth. Focus on retention metrics for the top 5% of active users.',
+      category: 'DEFI INFRASTRUCTURE',
+      title: 'Hyperion', 
+      label: 'Hyperion', // Used as large title
+      sublabel: 'High-frequency trading execution layer for decentralized exchanges on L2.',
+      wedge: 'Latency Arbitrage',
+      strategicFit: 94,
+      marketRisk: 'MEDIUM',
       progress: 75
     },
   },
