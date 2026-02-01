@@ -46,7 +46,7 @@
 }
 
 .outliers-scroll-row::-webkit-scrollbar-thumb {
-    background: #2C4A3A;
+    background: var(--forest-light);
     border-radius: 2px;
 }
 
@@ -61,8 +61,8 @@
     gap: 12px;
     padding: 8px 24px;
     border-radius: 9999px;
-    border: 1px solid #2C4A3A;
-    background: #0B1D15;
+    border: 1px solid var(--border-medium);
+    background: var(--forest-dark);
     cursor: pointer;
     flex-shrink: 0;
     flex: 1;
@@ -142,7 +142,7 @@
 .outlier-modal-title {
     font-family: var(--font-headline);
     font-size: 24px;
-    color: #1A1A1A;
+    color: var(--text-primary);
     margin: 0;
     display: flex;
     align-items: center;
@@ -162,12 +162,12 @@
 
 .outlier-modal-subtitle {
     font-size: 14px;
-    color: #64748B;
+    color: var(--text-secondary);
 }
 
 .outlier-modal-body {
     padding: 32px;
-    background: #F8FAFC;
+    background: var(--bg-secondary);
     flex: 1;
 }
 
@@ -198,13 +198,13 @@
     font-size: 14px;
     font-weight: 500;
     background: white;
-    border: 1px solid #E2E8F0;
-    color: #475569;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .btn-secondary:hover {
-    background: #F1F5F9;
-    color: #1E293B;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
 }

@@ -12,7 +12,7 @@ export default function TopNav() {
           </svg>
         </div>
         <h2 className="text-white text-xl font-serif tracking-wide">
-          VentureLabs <span className="text-text-secondary-dark font-display text-sm uppercase tracking-widest ml-1">Outlier</span>
+          Sequoia Genesis <span className="text-text-secondary-dark font-display text-sm uppercase tracking-widest ml-1">Outlier</span>
         </h2>
       </div>
       

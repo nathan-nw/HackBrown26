@@ -6,7 +6,7 @@
   padding: 8px 16px;
   background: rgba(5, 22, 16, 0.95); /* forest-deep with opacity */
   backdrop-filter: blur(16px);
-  border: 1px solid #1A3326;
+  border: 1px solid var(--forest-light);
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   overflow: hidden; /* Ensure content stays within border */
@@ -49,7 +49,7 @@
 .bar-divider {
   width: 1px;
   height: 32px;
-  background: #2C4A3A;
+  background: var(--forest-light);
   margin: 0 8px;
 }
 
@@ -77,8 +77,8 @@
 
 .decision-pill {
   height: 48px;
-  background: #0B1D15;
-  border: 1px solid #1A3326;
+  background: var(--forest-dark);
+  border: 1px solid var(--forest-light);
   border-radius: 12px;
   padding: 0 16px;
   display: flex;
@@ -97,7 +97,7 @@
 }
 
 .decision-pill:hover {
-  background: #1A3326;
+  background: var(--forest-light);
   border-color: rgba(19, 236, 91, 0.4); /* primary with opacity */
   box-shadow: 0 0 15px rgba(19, 236, 91, 0.1);
 }
@@ -116,7 +116,7 @@
 .pill-divider {
   width: 1px;
   height: 16px;
-  background: #2C4A3A;
+  background: var(--forest-light);
 }
 
 .drag-handle {
@@ -146,20 +146,15 @@
   width: 360px;
   background: rgba(11, 29, 21, 0.95);
   backdrop-filter: blur(12px);
-  border: 1px solid #2C4A3A;
+  border: 1px solid var(--forest-light);
   border-radius: 12px;
   box-shadow: 0 24px 48px rgba(0,0,0,0.5);
   z-index: 100;
   overflow: hidden;
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translate(-50%, 20px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
-}
 
 .checklist-header {
   padding: 16px 20px;

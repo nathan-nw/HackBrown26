@@ -61,7 +61,7 @@ export const PortfolioPage = () => {
           <header className="portfolio-header">
             <span className="breadcrumb-label">
               <span className="breadcrumb-number">01</span>
-              / VENTURE LABS
+              / Sequoia Genesis
             </span>
             
             <div className="portfolio-title-row">

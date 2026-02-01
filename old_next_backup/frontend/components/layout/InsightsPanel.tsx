@@ -6,7 +6,7 @@ export default function InsightsPanel() {
       <div className="p-6 border-b border-[#1A3326]">
         <div className="flex items-center gap-2 text-primary mb-1">
           <span className="material-symbols-outlined text-lg">auto_awesome</span>
-          <span className="text-xs font-bold tracking-widest uppercase">VentureLabs Insights</span>
+          <span className="text-xs font-bold tracking-widest uppercase">Sequoia Genesis Insights</span>
         </div>
         <h2 className="text-white font-serif text-xl">Pattern Recognition</h2>
       </div>
@@ -52,7 +52,7 @@ export default function InsightsPanel() {
         <div className="relative">
           <input 
             className="w-full bg-[#1A3326] border border-[#2C4A3A] rounded-lg py-3 px-4 text-sm text-white placeholder-text-secondary-dark focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all form-input" 
-            placeholder="Ask VentureLabs AI..." 
+            placeholder="Ask Sequoia Genesis AI..." 
             type="text"
           />
           <button className="absolute right-2 top-2 p-1 text-primary hover:text-white transition-colors">

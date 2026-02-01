@@ -17,7 +17,7 @@ export const TopNav = () => {
       >
         <Box size={24} color="var(--primary)" />
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-          <span style={{ fontFamily: 'var(--font-headline)', fontSize: '18px', fontWeight: 700 }}>VentureLabs</span>
+          <span style={{ fontFamily: 'var(--font-headline)', fontSize: '18px', fontWeight: 700 }}>Sequoia Genesis</span>
         </div>
       </div>
 

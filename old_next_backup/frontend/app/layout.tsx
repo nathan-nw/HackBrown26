@@ -13,7 +13,7 @@ const notoSerif = Noto_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "VentureLabs Canvas",
+  title: "Sequoia Genesis Canvas",
   description: "Designing the path to market dominance.",
 };
 

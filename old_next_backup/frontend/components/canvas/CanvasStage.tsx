@@ -169,7 +169,7 @@ export default function CanvasStage() {
           </div>
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-4xl md:text-5xl font-serif text-white tracking-tight leading-tight">VentureLabs Canvas</h1>
+              <h1 className="text-4xl md:text-5xl font-serif text-white tracking-tight leading-tight">Sequoia Genesis Canvas</h1>
               <p className="text-text-secondary-dark mt-2 font-light text-lg">Designing the path to market dominance.</p>
             </div>
             <div className="flex gap-3">

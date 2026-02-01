@@ -62,7 +62,7 @@ export const LandingPage = () => {
       <nav className="landing-nav">
         <div className="flex items-center gap-2 group nav-group cursor-pointer">
           <div className="logo-circle">V</div>
-          <span className="logo-text">Venture Labs</span>
+          <span className="logo-text">Sequoia Genesis</span>
         </div>
         <div className="flex items-center gap-8">
           <a href="#" className="nav-link hidden md:block" style={{ display: 'none' }}>Manifesto</a>
@@ -85,9 +85,9 @@ export const LandingPage = () => {
           
           <div className="relative inline-block animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <h1 className="hero-title">
-              Venture 
-              <span className="relative inline-block whitespace-nowrap" style={{ marginLeft: '0.2em' }}>
-                Labs
+              <span>Sequoia </span>
+              <span className="relative inline-block">
+                Genesis
                 <svg className="doodle-svg" fill="none" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
                   <path className="hand-drawn-circle stroke-primary" stroke="var(--primary)" d="M170,40 C165,20 120,5 90,10 C50,16 10,40 25,75 C35,95 80,95 110,90 C150,83 190,60 180,35 C175,22 150,25 140,30" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"></path>
                 </svg>
@@ -130,7 +130,7 @@ export const LandingPage = () => {
       {/* Footer - z-index: 10 */}
       <footer className="landing-footer">
         <p className="footer-text">
-            © 2024 Venture Labs. Defined by audacity.
+            © 2024 Sequoia Genesis. Defined by audacity.
         </p>
       </footer>
     </div>

@@ -13,18 +13,18 @@
 /* Connection Animation */
 @keyframes connection-glow {
   0% {
-    stroke: #22C55E; /* Green-500 */
+    stroke: var(--primary);
     stroke-width: 4;
     filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6));
     opacity: 1;
   }
   50% {
-    stroke: #22C55E;
+    stroke: var(--primary);
     stroke-width: 3;
     opacity: 0.8;
   }
   100% {
-    stroke: #b1b1b7;
+    stroke: var(--border-medium);
     stroke-width: 1;
     filter: none;
     opacity: 0.5; /* Match default edge opacity */
