@@ -68,7 +68,7 @@ export const DarkNode = ({ id, data }: NodeProps) => {
           }}
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, opacity: 0.8 }}
         >
-          <MoreHorizontal size={16} color="#E5E7EB" />
+          <MoreHorizontal size={16} color="var(--text-secondary)" />
         </button>
       </div>
       <div className="node-body">
@@ -97,7 +97,7 @@ export const PaperNode = ({ id, data }: NodeProps) => {
           }}
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
         >
-          <MoreHorizontal size={20} color="#9CA3AF" />
+          <MoreHorizontal size={20} color="var(--text-secondary)" />
         </button>
       </div>
       

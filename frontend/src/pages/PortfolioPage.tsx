@@ -11,6 +11,8 @@ import { NewIdeaFlowModal } from '../components/modals/NewIdeaFlowModal';
 import type { PortfolioItem, OutlierCompany } from '../types';
 import '../styles/portfolio.css';
 
+import { useAuth } from '../context/AuthContext';
+
 export const PortfolioPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedOutlier, setSelectedOutlier] = useState<OutlierCompany | null>(null);
@@ -19,20 +21,30 @@ export const PortfolioPage = () => {
   
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { session } = useAuth();
 
   useEffect(() => {
     const fetchPortfolio = async () => {
+      setLoading(true);
       try {
+        const token = session?.access_token;
+        if (!token) {
+           // If no token, we might want to delay or handle differently, but assuming protected route
+           setLoading(false);
+           return;
+        }
+
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/portfolio`,{
           headers: {
-            // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
-
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
         if (response.ok) {
           const data = await response.json();
           setPortfolioItems(data);
+        } else {
+            console.error('Failed to fetch portfolio', await response.text());
         }
       } catch (error) {
         console.error('Failed to fetch portfolio:', error);
@@ -40,8 +52,11 @@ export const PortfolioPage = () => {
         setLoading(false);
       }
     };
-    fetchPortfolio();
-  }, []);
+    
+    if (session) {
+      fetchPortfolio();
+    }
+  }, [session]);
 
   const [isNewIdeaOpen, setIsNewIdeaOpen] = useState(false);
 
@@ -112,13 +127,13 @@ export const PortfolioPage = () => {
                        top: '100%',
                        right: 0,
                        marginTop: '8px',
-                       background: '#1A1A1A',
-                       border: '1px solid rgba(255, 255, 255, 0.1)',
+                       background: 'white',
+                       border: '1px solid var(--border-light)',
                        borderRadius: '8px',
                        padding: '4px',
                        zIndex: 50,
                        minWidth: '180px',
-                       boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                       boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                      }}>
                        <button
                          onClick={() => { setSortBy('fit'); setIsSortOpen(false); }}
@@ -128,12 +143,13 @@ export const PortfolioPage = () => {
                            textAlign: 'left',
                            padding: '8px 12px',
                            fontSize: '14px',
-                           color: sortBy === 'fit' ? 'white' : 'var(--text-secondary)',
-                           background: sortBy === 'fit' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                           color: sortBy === 'fit' ? 'var(--primary)' : 'var(--text-secondary)',
+                           background: sortBy === 'fit' ? 'var(--bg-secondary)' : 'transparent',
                            border: 'none',
                            borderRadius: '4px',
                            cursor: 'pointer',
-                           fontFamily: 'var(--font-body)'
+                           fontFamily: 'var(--font-body)',
+                           fontWeight: sortBy === 'fit' ? 600 : 400
                          }}
                        >
                          Strategic Fit
@@ -146,12 +162,13 @@ export const PortfolioPage = () => {
                            textAlign: 'left',
                            padding: '8px 12px',
                            fontSize: '14px',
-                           color: sortBy === 'validation' ? 'white' : 'var(--text-secondary)',
-                           background: sortBy === 'validation' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                           color: sortBy === 'validation' ? 'var(--primary)' : 'var(--text-secondary)',
+                           background: sortBy === 'validation' ? 'var(--bg-secondary)' : 'transparent',
                            border: 'none',
                            borderRadius: '4px',
                            cursor: 'pointer',
-                           fontFamily: 'var(--font-body)'
+                           fontFamily: 'var(--font-body)',
+                           fontWeight: sortBy === 'validation' ? 600 : 400
                          }}
                        >
                          Validation Process
@@ -170,7 +187,7 @@ export const PortfolioPage = () => {
           <OutliersBar onSelect={setSelectedOutlier} />
           
           <div className="portfolio-grid">
-            <CreateNewIdeaCard />
+            <CreateNewIdeaCard onClick={() => setIsNewIdeaOpen(true)} />
             {loading ? (
               <div style={{ color: 'white' }}>Loading...</div>
             ) : (

@@ -15,13 +15,14 @@
 
 .btn-primary {
   background-color: var(--primary);
-  color: var(--forest-deep);
-  box-shadow: var(--shadow-glow);
+  color: var(--color-white);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-ghost {
@@ -31,7 +32,7 @@
 
 .btn-ghost:hover {
   color: var(--text-primary);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .btn-icon {
@@ -48,7 +49,7 @@
 
 .btn-icon:hover {
   color: var(--text-primary);
-  background-color: var(--forest-light);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* Node Cards */
@@ -60,10 +61,10 @@
 }
 
 .node-dark {
-  background-color: var(--forest-light);
-  border: 1px solid rgba(255,255,255,0.1);
+  background-color: var(--color-white);
+  border: 1px solid var(--border-light);
   color: var(--text-primary);
-  box-shadow: var(--shadow-deep);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Paper Node */
@@ -72,11 +73,11 @@
   border-radius: 4px; /* More squared as per new design? Or keep rounded? Design shows slight round */
   width: 340px; /* Wider */
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* More subtle shadow */
   color: var(--text-primary);
   font-family: 'Manrope', sans-serif;
   text-align: left;
-  border: none;
+  border: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
 }
@@ -283,11 +284,12 @@
 }
 
 .insight-card {
-  background-color: var(--forest-light);
+  background-color: var(--bg-secondary);
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 12px;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .insight-card h4 {
@@ -295,6 +297,7 @@
   font-size: 14px;
   color: var(--primary);
   margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .insight-card p {

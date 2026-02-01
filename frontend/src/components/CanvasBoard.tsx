@@ -21,7 +21,7 @@ import { ChecklistPanel } from './Canvas/ChecklistPanel';
 import { useSocket } from '../hooks/useSocket';
 import { Cursors } from './Canvas/Cursors';
 import { NodeEditModal } from './modals/NodeEditModal';
-
+import { useAuth } from '../context/AuthContext';
 
 
 interface CanvasContentProps {
@@ -30,6 +30,11 @@ interface CanvasContentProps {
 
 const CanvasContent = ({ ideaId }: CanvasContentProps) => {
   const { fitView, addNodes, project, zoomIn, zoomOut } = useReactFlow();
+  const { session } = useAuth();
+  
+  // Socket connection
+  const [userName] = React.useState(() => session?.user?.email || 'User ' + Math.floor(Math.random() * 1000));
+  const { socket, users, moveCursor, emitNodeChange, emitEdgeChange, isConnected } = useSocket(ideaId || 'default', userName);
 
   const nodeTypes = React.useMemo(() => ({
     darkNode: DarkNode,
@@ -59,15 +64,16 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
                   data: { ...node.data, ...newData }
               };
               
-              // Emit update if socket is connected (Need custom event or use 'replace' if supported by backend logic, 
-              // but for now local update + optimistic UI)
-              // Ideally: backend.post('/api/nodes/update', updatedNode)
+              // Emit update to backend to persist change
+              // We use a custom 'update' type that we implemented in the backend
+              // ReactFlow types might complain, but emitNodeChange accepts any[] if typed loosely in hook
+              emitNodeChange([{ type: 'update', id: nodeId, data: newData } as any]);
               
               return updatedNode;
           }
           return node;
       }));
-  }, []);
+  }, [emitNodeChange]);
 
   // Inject handlers into nodes
   const nodesWithHandlers = React.useMemo(() => {
@@ -80,23 +86,27 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
       }));
   }, [nodes, handleEditNode]);
 
-  // Socket connection
-  // Generate a random user ID/name for now since we don't have auth
-  const [userName] = React.useState(() => 'User ' + Math.floor(Math.random() * 1000));
-  const { socket, users, moveCursor, emitNodeChange, emitEdgeChange, isConnected } = useSocket(ideaId || 'default', userName);
-
   // Fetch initial data based on ideaId
   React.useEffect(() => {
     const fetchCanvasData = async () => {
       setLoading(true);
       try {
         const idToFetch = ideaId || 'default';
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/ideas/${idToFetch}`);
+        const headers: HeadersInit = {};
+        
+        if (session?.access_token) {
+            headers['Authorization'] = `Bearer ${session.access_token}`;
+        }
+        
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/ideas/${idToFetch}`, {
+           headers
+        });
+
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        
+        console.log('Fetched data:', data)
         // Reset the flow with fetched data
         setNodesState(data.nodes || []);
         setEdgesState(data.edges || []);
@@ -112,7 +122,7 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
     };
 
     fetchCanvasData();
-  }, [ideaId]);
+  }, [ideaId, session]);
 
   // Handle incoming socket events
   useEffect(() => {
@@ -174,16 +184,47 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
 
      const decision = REQUIRED_DECISIONS.find(d => d.type === type);
      
+     // Initialize data with all possible fields to ensure structure allows updates
+     const initialData = {
+         title: decision?.label || type, 
+         label: decision?.description || `Define your ${type} strategy here.`, 
+         type: type,
+         isNew: true,
+         // Pre-populate fields to ensure they exist for the edit modal
+         description: '',
+         // PRICING
+         pricingModel: '', price: '', billingFrequency: '',
+         // MARKET
+         targetCustomer: '', beachhead: '',
+         // DISTRIBUTION
+         channel: '', cac: '',
+         // PROBLEM
+         painPoints: '', urgency: '',
+         // SEGMENT
+         personaName: '', demographics: '',
+         // SOLUTION
+         coreFeature: '', techStack: '',
+         // SIZING
+         tam: '', sam: '', som: '',
+         // EQUITY
+         foundersSplit: '', employeePool: '',
+         // LAUNCH
+         launchStrategy: '', launchDate: '',
+         // FRICTION
+         entryModel: '',
+         // PIT_STOP
+         pitStopFocus: '',
+         // EVOLUTION
+         evolutionStrategy: '',
+         // NARRATIVE
+         narrativeType: '', tagline: ''
+     };
+
      const newNode = {
        id,
        type: 'darkNode',
        position: finalPos,
-       data: { 
-         title: decision?.label || type, 
-         label: decision?.description || `Define your ${type} strategy here.`, // Use description as the "detailed one-line"
-         type: type,
-         isNew: true
-       },
+       data: initialData
      };
 
      addNodes(newNode);
@@ -305,7 +346,7 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
         onNodeDragStop={onNodeDragStop}
         onPaneMouseMove={handleMouseMove}
       >
-        <Background gap={20} color="#1A3326" />
+        <Background gap={20} color="#E5E5E5" />
         <Cursors users={users} />
         
         <Panel position="top-right" style={{ margin: '16px' }}>
@@ -313,22 +354,21 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
             display: 'flex', 
             alignItems: 'center', 
             gap: '8px', 
-            background: 'rgba(5, 22, 16, 0.8)', 
+            background: 'white', 
             padding: '8px 12px', 
             borderRadius: '20px',
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(4px)'
+            border: '1px solid #E5E5E5',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
           }}>
             <div style={{ 
               width: '8px', 
               height: '8px', 
               borderRadius: '50%', 
-              backgroundColor: isConnected ? '#4ADE80' : '#EF4444',
-              boxShadow: isConnected ? '0 0 8px #4ADE80' : 'none',
+              backgroundColor: isConnected ? '#00473E' : '#EF4444',
               transition: 'background-color 0.3s ease'
             }} />
             <span style={{ 
-                color: isConnected ? '#4ADE80' : '#EF4444', 
+                color: isConnected ? '#00473E' : '#EF4444', 
                 fontSize: '12px', 
                 fontWeight: 600,
                 fontFamily: 'var(--font-body)',

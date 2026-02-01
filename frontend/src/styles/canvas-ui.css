@@ -4,15 +4,15 @@
   align-items: center;
   gap: 16px; 
   padding: 8px 16px;
-  background: rgba(5, 22, 16, 0.95); /* forest-deep with opacity */
+  background: rgba(255, 255, 255, 0.85); /* Light glass */
   backdrop-filter: blur(16px);
-  border: 1px solid var(--forest-light);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   overflow: hidden; /* Ensure content stays within border */
-  max-width: calc(100% - 64px); /* Constraint to parent container (Canvas) width */
+  max-width: calc(100% - 64px); 
   width: auto;
-  min-width: 0; /* Allow shrinking */
+  min-width: 0; 
   pointer-events: auto;
   margin: 0 auto;
 }
@@ -26,8 +26,8 @@
   padding: 0 20px;
   background: var(--primary);
   border-radius: 12px;
-  color: var(--forest-deep); /* dark text on green */
-  box-shadow: 0 0 15px rgba(19, 236, 91, 0.2);
+  color: white; 
+  box-shadow: var(--shadow-glow);
   transition: all 0.2s ease;
   cursor: pointer;
   border: none;
@@ -36,7 +36,7 @@
 
 .library-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 20px rgba(19, 236, 91, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 71, 62, 0.4);
 }
 
 .library-label {
@@ -49,7 +49,7 @@
 .bar-divider {
   width: 1px;
   height: 32px;
-  background: var(--forest-light);
+  background: var(--border-light);
   margin: 0 8px;
 }
 
@@ -77,19 +77,20 @@
 
 .decision-pill {
   height: 48px;
-  background: var(--forest-dark);
-  border: 1px solid var(--forest-light);
+  background: white;
+  border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 0 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  color: white;
+  color: var(--text-primary);
   transition: all 0.2s ease;
   cursor: grab;
   position: relative;
   flex-shrink: 0;
   user-select: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .decision-pill:active {
@@ -97,14 +98,14 @@
 }
 
 .decision-pill:hover {
-  background: var(--forest-light);
-  border-color: rgba(19, 236, 91, 0.4); /* primary with opacity */
-  box-shadow: 0 0 15px rgba(19, 236, 91, 0.1);
+  background: var(--bg-secondary);
+  border-color: var(--primary); 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .decision-pill.completed {
-  border-color: rgba(19, 236, 91, 0.3);
-  background: rgba(19, 236, 91, 0.05);
+  border-color: var(--primary);
+  background: rgba(0, 71, 62, 0.05); /* Light green tint */
 }
 
 .pill-label {
@@ -116,16 +117,17 @@
 .pill-divider {
   width: 1px;
   height: 16px;
-  background: var(--forest-light);
+  background: var(--border-light);
 }
 
 .drag-handle {
-  opacity: 0.5;
+  opacity: 0.3;
   transition: opacity 0.2s;
+  color: var(--text-secondary);
 }
 
 .decision-pill:hover .drag-handle {
-  opacity: 1;
+  opacity: 0.8;
 }
 
 .status-dot {
@@ -133,7 +135,7 @@
   height: 6px;
   border-radius: 50%;
   background: var(--primary);
-  box-shadow: 0 0 8px var(--primary);
+  box-shadow: 0 0 4px var(--primary);
   margin-left: auto;
 }
 
@@ -144,11 +146,11 @@
   left: 50%;
   transform: translateX(-50%);
   width: 360px;
-  background: rgba(11, 29, 21, 0.95);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  border: 1px solid var(--forest-light);
+  border: 1px solid var(--border-light);
   border-radius: 12px;
-  box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.15);
   z-index: 100;
   overflow: hidden;
   display: flex;
@@ -158,17 +160,17 @@
 
 .checklist-header {
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid var(--border-light);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255,255,255,0.02);
+  background: rgba(0,0,0,0.01);
 }
 
 .checklist-title {
   font-family: var(--font-headline);
   font-size: 16px;
-  color: white;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -197,12 +199,12 @@
 }
 
 .checklist-item:hover {
-  background: rgba(255,255,255,0.03);
-  border-color: rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.03);
+  border-color: var(--border-light);
 }
 
 .checklist-item.missing {
-  opacity: 0.8;
+  opacity: 1.0; /* Keep uniform opacity in light mode */
 }
 
 .checklist-item.completed {
@@ -213,23 +215,25 @@
   width: 32px;
   height: 32px;
   border-radius: 6px;
-  background: rgba(255,255,255,0.05);
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+  border: 1px solid transparent;
 }
 
 .checklist-item.completed .checklist-icon-box {
-  background: rgba(19, 236, 91, 0.1);
+  background: rgba(0, 71, 62, 0.1);
   color: var(--primary);
+  border-color: rgba(0, 71, 62, 0.1);
 }
 
 .checklist-info h4 {
   margin: 0 0 2px 0;
   font-size: 13px;
   font-weight: 600;
-  color: white;
+  color: var(--text-primary);
 }
 
 .checklist-info p {
@@ -251,11 +255,11 @@
 }
 
 .status-missing {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    color: var(--text-muted);
 }
 
 .status-done {
-    background: rgba(19, 236, 91, 0.1);
+    background: rgba(0, 71, 62, 0.1);
     color: var(--primary);
 }

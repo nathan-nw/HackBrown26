@@ -83,16 +83,8 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
                                 {['Monthly', 'Yearly', 'One-off'].map((opt) => (
                                     <button
                                         key={opt}
-                                        className={`nif-chip-wrapper ${formData.billingFrequency === opt ? 'active' : ''}`}
+                                        className={`nif-chip-label ${formData.billingFrequency === opt ? 'active' : ''}`}
                                         onClick={() => handleChange('billingFrequency', opt)}
-                                        style={{ 
-                                            padding: '8px 16px', 
-                                            border: formData.billingFrequency === opt ? '1px solid var(--primary)' : '1px solid #2C4A3A',
-                                            background: formData.billingFrequency === opt ? 'rgba(19, 236, 91, 0.1)' : 'transparent',
-                                            color: formData.billingFrequency === opt ? 'var(--primary)' : 'var(--color-forest-deep)',
-                                            borderRadius: '20px',
-                                            cursor: 'pointer'
-                                        }}
                                     >
                                         {opt}
                                     </button>
@@ -416,9 +408,9 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
         onClose={isLocked ? () => {} : onClose} 
         className="nif-modal-container nif-modal-edit"
     >
-        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-forest-dark)', margin: 0 }}>Edit {node.data.type ? node.data.type : 'Node'}</h2>
+        <div style={{ padding: '40px', display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+                <h2 className="nif-title" style={{ margin: 0, fontSize: '24px' }}>Edit {node.data.type ? node.data.type : 'Node'}</h2>
                 {!isLocked && (
                     <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
                         <X size={24} />
@@ -430,17 +422,17 @@ export const NodeEditModal = ({ isOpen, onClose, node, onSave }: NodeEditModalPr
                 {renderFields()}
             </div>
 
-            <div style={{ marginTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '12px' }}>
+            <div style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '16px' }}>
                 {error && <div style={{ color: '#EF4444', fontSize: '14px', marginBottom: '4px' }}>{error}</div>}
                 
-                <div style={{ display: 'flex', gap: '12px' }}>
+                <div style={{ display: 'flex', gap: '16px' }}>
                     {!isLocked && (
                         <button onClick={onClose} className="nif-btn-cancel">Cancel</button>
                     )}
                      <button 
                         onClick={handleSave} 
                         className="nif-btn-primary" 
-                        style={{ width: 'auto', padding: '0 24px' }}
+                        style={{ width: 'auto', padding: '10px 32px' }}
                     >
                         <Save size={18} />
                         {node.data.isNew ? 'Save & Continue' : 'Save Changes'}

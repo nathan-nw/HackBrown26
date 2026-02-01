@@ -1,7 +1,7 @@
 /* Outliers Section */
 .outliers-section {
     margin-bottom: 28px;
-    border-top: 1px solid var(--forest-light);
+    border-top: 1px solid var(--border-light);
     padding-top: 24px;
 }
 
@@ -22,7 +22,7 @@
 
 .outliers-divider {
     height: 1px;
-    background: var(--forest-light);
+    background: var(--border-light);
     flex: 1;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .outliers-scroll-row::-webkit-scrollbar-thumb {
-    background: var(--forest-light);
+    background: var(--border-light);
     border-radius: 2px;
 }
 
@@ -61,19 +61,21 @@
     gap: 12px;
     padding: 8px 24px;
     border-radius: 9999px;
-    border: 1px solid var(--border-medium);
-    background: var(--forest-dark);
+    border: 1px solid var(--border-light);
+    background: white;
     cursor: pointer;
     flex-shrink: 0;
     flex: 1;
     justify-content: center;
     min-width: 140px;
     transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .outlier-chip:hover {
-    background: var(--forest-light);
-    border-color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-color: var(--primary);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
 .outlier-chip-text {
@@ -84,7 +86,7 @@
 }
 
 .outlier-chip:hover .outlier-chip-text {
-    color: white;
+    color: var(--primary);
 }
 
 .outlier-chip svg {
@@ -95,7 +97,7 @@
 }
 
 .outlier-chip:hover svg {
-    fill: white;
+    fill: var(--primary);
 }
 
 /* Modal */

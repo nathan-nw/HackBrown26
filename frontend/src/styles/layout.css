@@ -37,15 +37,15 @@
 
 .canvas-area {
   grid-area: canvas;
-  background-color: var(--forest-deep);
+  background-color: var(--bg-secondary); /* Light gray background */
   position: relative;
   overflow: hidden;
 }
 
 .insights-panel {
   grid-area: insights;
-  background-color: var(--forest-dark);
-  border-left: 1px solid var(--forest-light);
+  background-color: var(--color-white);
+  border-left: 1px solid var(--color-gray-200);
   padding: 24px;
   overflow-y: auto;
   z-index: 9;

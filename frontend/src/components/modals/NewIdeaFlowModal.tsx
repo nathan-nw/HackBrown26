@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lightbulb, Bolt, Settings as DesignServices, Code, ArrowRight, ArrowLeft, X } from 'lucide-react';
 import { ModalBase } from '../ui/ModalBase';
-import { useIdeas, type Idea } from '../../context/IdeasContext';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/newIdeaFlow.css';
 
 interface NewIdeaFlowModalProps {
@@ -16,9 +16,9 @@ interface FormData {
   name: string;
   description: string;
   wedge: string;
-  differentiation: Idea['differentiation'] | null;
-  category: Idea['category'] | null;
-  stage: Idea['stage'] | null;
+  differentiation: string | null;
+  category: string | null;
+  stage: string | null;
 }
 
 const INITIAL_DATA: FormData = {
@@ -32,15 +32,17 @@ const INITIAL_DATA: FormData = {
 
 export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => {
   const navigate = useNavigate();
-  const { addIdea } = useIdeas();
+  const { session } = useAuth();
   const [step, setStep] = useState<Step>(1);
   const [data, setData] = useState<FormData>(INITIAL_DATA);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Reset state when opening
   useEffect(() => {
     if (isOpen) {
       setStep(1);
       setData(INITIAL_DATA);
+      setIsSubmitting(false);
     }
   }, [isOpen]);
 
@@ -53,23 +55,37 @@ export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => 
     if (step > 1) setStep((s) => (s - 1) as Step);
   };
 
-  const handleSubmit = () => {
-    if (!data.category) return; // Should be handled by UI state being disabled
+  const handleSubmit = async () => {
+    if (!data.category || !session?.access_token) return;
+    
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/portfolio`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: data.name,
+          description: data.description,
+          // We can expand the backend to accept more fields if needed
+          // For now, sending the core fields
+        }),
+      });
 
-    const newIdea: Idea = {
-      id: crypto.randomUUID(),
-      name: data.name,
-      description: data.description,
-      wedge: data.wedge,
-      differentiation: data.differentiation!, // Asserting non-null as validation ensures it
-      category: data.category,
-      stage: data.stage || undefined, // Convert null to undefined
-      createdAt: new Date().toISOString(),
-    };
-
-    addIdea(newIdea);
-    onClose();
-    navigate(`/canvas?ideaId=${newIdea.id}`);
+      if (response.ok) {
+        const newProject = await response.json();
+        onClose();
+        navigate(`/planning/${newProject.id}`);
+      } else {
+        console.error('Failed to create project');
+      }
+    } catch (error) {
+      console.error('Error creating project:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Render Pattern Match Panel (Right Side)
