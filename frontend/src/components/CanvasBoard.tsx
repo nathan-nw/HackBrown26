@@ -3,7 +3,8 @@ import ReactFlow, {
   Background, 
   ReactFlowProvider,
   useReactFlow,
-  Panel
+  Panel,
+  addEdge
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -21,7 +22,7 @@ const nodeTypes = {
 };
 
 const CanvasContent = () => {
-  const { fitView, addNodes, getNodes, project, zoomIn, zoomOut } = useReactFlow();
+  const { fitView, addNodes, getNodes, project, zoomIn, zoomOut, setEdges } = useReactFlow();
   const nodes = getNodes(); // Reactive to flow changes
   const [isChecklistOpen, setIsChecklistOpen] = React.useState(false);
   const [isControlsOpen, setIsControlsOpen] = React.useState(true);
@@ -81,6 +82,20 @@ const CanvasContent = () => {
     [project]
   );
 
+  const onConnect = React.useCallback(
+    (params: any) => {
+      // Add edge with animation class
+      const newEdge = { 
+        ...params, 
+        className: 'connection-glow',
+        type: 'default',
+        animated: true,
+      };
+      setEdges((eds) => addEdge(newEdge, eds));
+    },
+    [setEdges]
+  );
+
   return (
     <div style={{ width: '100%', height: '100%' }} onDrop={onDrop} onDragOver={onDragOver}>
       <ReactFlow
@@ -90,27 +105,11 @@ const CanvasContent = () => {
         fitView
         minZoom={0.5}
         maxZoom={2}
+        proOptions={{ hideAttribution: true }}
+        onConnect={onConnect}
       >
         <Background gap={20} color="#1A3326" />
         
-        <Panel position="bottom-center" style={{ marginBottom: '8px' }}>
-          <RequiredDecisionsBar 
-            completedIds={completedIds}
-            onAddNode={(type) => handleAddNode(type)} 
-            onToggleChecklist={() => setIsChecklistOpen(!isChecklistOpen)}
-          />
-        </Panel>
-
-        <ChecklistPanel 
-          isOpen={isChecklistOpen}
-          onClose={() => setIsChecklistOpen(false)}
-          completedIds={completedIds}
-          onAddNode={(type) => {
-            handleAddNode(type);
-            // Optional: close panel on add or keep open
-          }}
-        />
-
         <Panel position="bottom-left" className="bottom-left-controls" style={{ marginBottom: '80px', marginLeft: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
            {isControlsOpen && (
              <>
@@ -130,6 +129,33 @@ const CanvasContent = () => {
            </Button>
         </Panel>
       </ReactFlow>
+
+      {/* Overlays positioned relative to the container */}
+      <div style={{ 
+        position: 'absolute', 
+        bottom: '24px', 
+        left: 0, 
+        width: '100%', 
+        display: 'flex', 
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        zIndex: 5
+      }}>
+        <RequiredDecisionsBar 
+          completedIds={completedIds}
+          onAddNode={(type) => handleAddNode(type)} 
+          onToggleChecklist={() => setIsChecklistOpen(!isChecklistOpen)}
+        />
+      </div>
+
+      <ChecklistPanel 
+        isOpen={isChecklistOpen}
+        onClose={() => setIsChecklistOpen(false)}
+        completedIds={completedIds}
+        onAddNode={(type) => {
+          handleAddNode(type);
+        }}
+      />
     </div>
   );
 };

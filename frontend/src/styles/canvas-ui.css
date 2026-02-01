@@ -9,9 +9,12 @@
   border: 1px solid #1A3326;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-  max-width: 90vw;
+  overflow: hidden; /* Ensure content stays within border */
+  max-width: calc(100% - 64px); /* Constraint to parent container (Canvas) width */
   width: auto;
+  min-width: 0; /* Allow shrinking */
   pointer-events: auto;
+  margin: 0 auto;
 }
 
 .library-button {
@@ -58,6 +61,14 @@
   padding-bottom: 4px; /* Space for potential scrollbar */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+  flex: 1; /* Take remaining space */
+  min-width: 0; /* Allow shrinking below content size */
+  cursor: grab; /* Indicate draggable */
+}
+
+.pills-scroll-container.is-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .pills-scroll-container::-webkit-scrollbar {

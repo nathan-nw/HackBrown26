@@ -10,6 +10,32 @@
   border: 1px solid var(--forest-light);
 }
 
+/* Connection Animation */
+@keyframes connection-glow {
+  0% {
+    stroke: #22C55E; /* Green-500 */
+    stroke-width: 4;
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6));
+    opacity: 1;
+  }
+  50% {
+    stroke: #22C55E;
+    stroke-width: 3;
+    opacity: 0.8;
+  }
+  100% {
+    stroke: #b1b1b7;
+    stroke-width: 1;
+    filter: none;
+    opacity: 0.5; /* Match default edge opacity */
+  }
+}
+
+.connection-glow path {
+  animation: connection-glow 2s ease-out forwards !important;
+  stroke-linecap: round;
+}
+
 .react-flow__controls-button {
   background-color: var(--forest-dark);
   border-bottom: 1px solid var(--forest-light);

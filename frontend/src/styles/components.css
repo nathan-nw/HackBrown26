@@ -66,11 +66,101 @@
   box-shadow: var(--shadow-deep);
 }
 
+/* Paper Node */
 .node-paper {
-  background-color: var(--paper);
-  color: var(--text-paper);
-  border-left: 4px solid var(--primary);
-  box-shadow: var(--shadow-paper);
+  background: white;
+  border-radius: 12px;
+  width: 280px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  color: #1A3326;
+  font-family: 'Manrope', sans-serif;
+  text-align: left;
+  border: none;
+}
+
+.node-paper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.node-paper-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.edit-icon {
+  width: 28px;
+  height: 28px;
+  background: #F3F4F6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #374151;
+  cursor: pointer;
+}
+
+.edit-icon:hover {
+  background: #E5E7EB;
+}
+
+.node-paper-heading {
+  font-family: 'Noto Serif', serif;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.node-paper-sublabel {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6B7280;
+  margin: 0;
+}
+
+.node-paper-footer {
+  margin-top: 24px;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 4px;
+  background: #E5E7EB;
+  border-radius: 2px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: #22C55E; /* Green-500 */
+  height: 100%;
+  border-radius: 2px;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #9CA3AF;
+  display: none; /* Hidden in design update */
+}
+
+.progress-percent {
+  font-size: 12px;
+  color: #6B7280;
+  align-self: flex-end;
+  margin-top: 4px; /* Adjust spacing to be below the bar */
 }
 
 .node-header {
@@ -85,19 +175,6 @@
   font-size: 13px;
   line-height: 1.4;
   opacity: 0.9;
-}
-
-.progress-bar {
-  height: 4px;
-  background-color: #e0e0e0;
-  border-radius: 2px;
-  margin-top: 12px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: var(--primary);
 }
 
 /* Insights Panel Styles */
