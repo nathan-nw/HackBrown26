@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MY_CASES, SEQUENTIAL_OUTLIERS } from '../../data/caseStudies';
-import type { CaseStudy } from '../../data/caseStudies';
+
 
 interface CasePickerPanelProps {
   side: 'left' | 'right';

@@ -356,7 +356,7 @@ export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => 
             ) : (
                 <button 
                     onClick={handleSubmit} 
-                    disabled={!isStepValid()}
+                    disabled={!isStepValid() || isSubmitting}
                     className="nif-btn-primary"
                 >
                     Generate Initial Canvas
