@@ -19,6 +19,7 @@ import { RequiredDecisionsBar } from './Canvas/RequiredDecisionsBar';
 import { ChecklistPanel } from './Canvas/ChecklistPanel';
 import { useSocket } from '../hooks/useSocket';
 import { Cursors } from './Canvas/Cursors';
+import { NodeEditModal } from './modals/NodeEditModal';
 
 
 
@@ -39,7 +40,44 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
   const [isChecklistOpen, setIsChecklistOpen] = React.useState(false);
   const [isControlsOpen, setIsControlsOpen] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
+  const [editingNode, setEditingNode] = React.useState<any>(null);
   const isDragging = React.useRef(false);
+
+  const handleEditNode = useCallback((nodeId: string) => {
+      const node = nodes.find(n => n.id === nodeId);
+      if (node) {
+          setEditingNode(node);
+      }
+  }, [nodes]);
+
+  const handleSaveNode = useCallback((nodeId: string, newData: any) => {
+      setNodesState((nds) => nds.map((node) => {
+          if (node.id === nodeId) {
+              const updatedNode = { 
+                  ...node, 
+                  data: { ...node.data, ...newData }
+              };
+              
+              // Emit update if socket is connected (Need custom event or use 'replace' if supported by backend logic, 
+              // but for now local update + optimistic UI)
+              // Ideally: backend.post('/api/nodes/update', updatedNode)
+              
+              return updatedNode;
+          }
+          return node;
+      }));
+  }, []);
+
+  // Inject handlers into nodes
+  const nodesWithHandlers = React.useMemo(() => {
+      return nodes.map(node => ({
+          ...node,
+          data: {
+              ...node.data,
+              onEdit: (id: string) => handleEditNode(id)
+          }
+      }));
+  }, [nodes, handleEditNode]);
 
   // Socket connection
   // Generate a random user ID/name for now since we don't have auth
@@ -245,7 +283,7 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
       onMouseMove={handleMouseMove}
     >
       <ReactFlow
-        nodes={nodes}
+        nodes={nodesWithHandlers}
         edges={edges}
         nodeTypes={nodeTypes}
         fitView
@@ -340,6 +378,13 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
         onAddNode={(type) => {
           handleAddNode(type);
         }}
+      />
+
+      <NodeEditModal 
+        isOpen={!!editingNode}
+        node={editingNode}
+        onClose={() => setEditingNode(null)}
+        onSave={handleSaveNode}
       />
     </div>
   );

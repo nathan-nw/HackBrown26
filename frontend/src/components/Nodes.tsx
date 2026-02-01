@@ -2,13 +2,25 @@ import { Handle, Position, type NodeProps } from 'reactflow';
 import { MoreHorizontal, Triangle } from 'lucide-react';
 import '../styles/components.css';
 
-export const DarkNode = ({ data }: NodeProps) => {
+export const DarkNode = ({ id, data }: NodeProps) => {
   return (
     <div className="node-card node-dark">
       <Handle type="target" position={Position.Left} />
       <div className="node-header">
-        <span>{data.title}</span>
-        {data.type && <span style={{ fontSize: '10px', opacity: 0.6, textTransform: 'uppercase' }}>{data.type}</span>}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+            <span>{data.title}</span>
+            {data.type && <span style={{ fontSize: '10px', opacity: 0.6, textTransform: 'uppercase' }}>{data.type}</span>}
+        </div>
+        <button 
+          className="menu-icon" 
+          onClick={(e) => {
+            e.stopPropagation();
+            if (data.onEdit) data.onEdit(id);
+          }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, opacity: 0.8 }}
+        >
+          <MoreHorizontal size={16} color="#E5E7EB" />
+        </button>
       </div>
       <div className="node-body">
         {data.label}
@@ -18,16 +30,23 @@ export const DarkNode = ({ data }: NodeProps) => {
   );
 };
 
-export const PaperNode = ({ data }: NodeProps) => {
+export const PaperNode = ({ id, data }: NodeProps) => {
   return (
     <div className="node-card node-paper">
       <Handle type="target" position={Position.Left} style={{ background: 'var(--primary)', width: '12px', height: '12px', left: '-6px' }} />
       
       <div className="node-paper-header">
         <span className="node-paper-title">{data.category || data.title}</span>
-        <div className="menu-icon">
+        <button 
+          className="menu-icon" 
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent ensuring node selection doesn't conflict
+            if (data.onEdit) data.onEdit(id);
+          }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+        >
           <MoreHorizontal size={20} color="#9CA3AF" />
-        </div>
+        </button>
       </div>
       
       <div className="node-paper-body">
