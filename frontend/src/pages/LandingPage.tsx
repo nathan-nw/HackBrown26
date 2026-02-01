@@ -85,17 +85,18 @@ export const LandingPage = () => {
           
           <div className="relative inline-block animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <h1 className="hero-title">
-              <span>Sequoia </span>
-              <span className="relative inline-block">
-                Genesis
-                <svg className="doodle-svg" fill="none" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-                  <path className="hand-drawn-circle stroke-primary" stroke="var(--primary)" d="M170,40 C165,20 120,5 90,10 C50,16 10,40 25,75 C35,95 80,95 110,90 C150,83 190,60 180,35 C175,22 150,25 140,30" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"></path>
-                </svg>
-              </span>
+              <span className="hero-word-sequoia">Sequoia</span>
+              <span> </span>
+              <span className="hero-word-genesis">Genesis</span>
+              
+              <svg className="green-underline" fill="none" viewBox="0 0 300 20">
+                <path className="underline-path" d="M5,10 Q145,20 290,5" stroke="#00854A" strokeLinecap="round" strokeWidth="4"></path>
+              </svg>
+              
+              <svg className="doodle-svg" fill="none" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                <path className="hand-drawn-circle" stroke="#00854A" d="M10,50 C10,10 190,10 190,50 C190,90 10,90 10,50 M15,45 C15,5 195,5 195,45 C195,85 15,85 15,45" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"></path>
+              </svg>
             </h1>
-            <svg className="green-underline" fill="none" viewBox="0 0 300 20">
-              <path className="opacity-30" d="M5,10 Q150,25 290,5" stroke="#00854A" strokeLinecap="round" strokeWidth="2"></path>
-            </svg>
           </div>
 
           <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>

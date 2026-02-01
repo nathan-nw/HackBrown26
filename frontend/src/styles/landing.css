@@ -191,40 +191,46 @@ body.dark .bg-gradient {
 }
 
 /* SVG Doodles */
+.green-underline {
+  position: absolute;
+  width: 48%; /* Covers Sequoia */
+  height: 16px;
+  bottom: -20px;
+  left: -12px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.underline-path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: dash 1.5s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0.5;
+}
+
 .doodle-svg {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 77%; /* Centered on Genesis */
   transform: translate(-50%, -50%);
-  width: 110%;
-  height: 110%;
+  width: 65%; /* Increased from 55% */
+  height: 180%; /* Increased from 150% */
   pointer-events: none;
   overflow: visible;
   z-index: -1;
 }
 
 .hand-drawn-circle {
-  stroke-dasharray: 600;
-  stroke-dashoffset: 600;
-  animation: dash 1.8s ease-in-out forwards;
-  animation-delay: 0.5s;
-  opacity: 0.9;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: dash 2s ease-in-out forwards;
+  animation-delay: 1.8s;
+  opacity: 0.5; /* Matched to underline opacity */
 }
 
 @keyframes dash {
   to { stroke-dashoffset: 0; }
-}
-
-.green-underline {
-  position: absolute;
-  width: 60%;
-  height: 16px;
-  bottom: -24px;
-  left: -16px; /* md:-left-12 */
-  pointer-events: none;
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-  animation-delay: 1.2s;
 }
 
 /* Animations */
