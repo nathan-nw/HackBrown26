@@ -16,9 +16,11 @@ import '../styles/canvas.css';
 import { Button } from './ui/Button';
 import { Maximize, Plus, Minus, ChevronUp, ChevronDown } from 'lucide-react';
 import { RequiredDecisionsBar } from './Canvas/RequiredDecisionsBar';
+import { REQUIRED_DECISIONS } from '../data/requiredDecisions';
 import { ChecklistPanel } from './Canvas/ChecklistPanel';
 import { useSocket } from '../hooks/useSocket';
 import { Cursors } from './Canvas/Cursors';
+import { NodeEditModal } from './modals/NodeEditModal';
 
 
 
@@ -39,7 +41,44 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
   const [isChecklistOpen, setIsChecklistOpen] = React.useState(false);
   const [isControlsOpen, setIsControlsOpen] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
+  const [editingNode, setEditingNode] = React.useState<any>(null);
   const isDragging = React.useRef(false);
+
+  const handleEditNode = useCallback((nodeId: string) => {
+      const node = nodes.find(n => n.id === nodeId);
+      if (node) {
+          setEditingNode(node);
+      }
+  }, [nodes]);
+
+  const handleSaveNode = useCallback((nodeId: string, newData: any) => {
+      setNodesState((nds) => nds.map((node) => {
+          if (node.id === nodeId) {
+              const updatedNode = { 
+                  ...node, 
+                  data: { ...node.data, ...newData }
+              };
+              
+              // Emit update if socket is connected (Need custom event or use 'replace' if supported by backend logic, 
+              // but for now local update + optimistic UI)
+              // Ideally: backend.post('/api/nodes/update', updatedNode)
+              
+              return updatedNode;
+          }
+          return node;
+      }));
+  }, []);
+
+  // Inject handlers into nodes
+  const nodesWithHandlers = React.useMemo(() => {
+      return nodes.map(node => ({
+          ...node,
+          data: {
+              ...node.data,
+              onEdit: (id: string) => handleEditNode(id)
+          }
+      }));
+  }, [nodes, handleEditNode]);
 
   // Socket connection
   // Generate a random user ID/name for now since we don't have auth
@@ -133,18 +172,24 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
        y: window.innerHeight / 2 - 100 
      };
 
+     const decision = REQUIRED_DECISIONS.find(d => d.type === type);
+     
      const newNode = {
        id,
        type: 'darkNode',
        position: finalPos,
        data: { 
-         title: type, 
-         label: `Define your ${type} strategy here.`,
-         type: type 
+         title: decision?.label || type, 
+         label: decision?.description || `Define your ${type} strategy here.`, // Use description as the "detailed one-line"
+         type: type,
+         isNew: true
        },
      };
 
      addNodes(newNode);
+     
+     // Automatically open edit modal for new nodes
+     setEditingNode(newNode);
      
      // Emit add change
      emitNodeChange([{ type: 'add', item: newNode }]);
@@ -245,7 +290,7 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
       onMouseMove={handleMouseMove}
     >
       <ReactFlow
-        nodes={nodes}
+        nodes={nodesWithHandlers}
         edges={edges}
         nodeTypes={nodeTypes}
         fitView
@@ -340,6 +385,13 @@ const CanvasContent = ({ ideaId }: CanvasContentProps) => {
         onAddNode={(type) => {
           handleAddNode(type);
         }}
+      />
+
+      <NodeEditModal 
+        isOpen={!!editingNode}
+        node={editingNode}
+        onClose={() => setEditingNode(null)}
+        onSave={handleSaveNode}
       />
     </div>
   );

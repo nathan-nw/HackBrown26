@@ -39,14 +39,15 @@ export const TopNav = () => {
         </Button>
         <Button 
           variant="ghost" 
+          onClick={() => navigate('/comparison/new')}
           style={{ 
-            color: 'var(--text-secondary)',
-            borderBottom: '1px solid transparent',
+            color: isActive('/comparison/new') ? 'var(--primary)' : 'var(--text-secondary)',
+            borderBottom: isActive('/comparison/new') ? '1px solid var(--primary)' : '1px solid transparent',
             borderRadius: 0,
             paddingBottom: '4px'
           }}
         >
-          Library
+          Case Study
         </Button>
       </div>
 

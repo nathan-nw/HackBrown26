@@ -6,6 +6,8 @@ import { TopNav } from '../components/TopNav';
 import { Filter, ArrowUpDown, Search } from 'lucide-react';
 import { OutliersBar } from '../components/Outliers/OutliersBar';
 import { OutlierModal } from '../components/Outliers/OutlierModal';
+import { NewIdeaFlowModal } from '../components/modals/NewIdeaFlowModal';
+// import type { OutlierCompany } from '../data/mockOutliers';
 import type { PortfolioItem, OutlierCompany } from '../types';
 import '../styles/portfolio.css';
 
@@ -35,7 +37,10 @@ export const PortfolioPage = () => {
     fetchPortfolio();
   }, []);
 
+  const [isNewIdeaOpen, setIsNewIdeaOpen] = useState(false);
+
   const filteredPortfolio = useMemo(() => {
+    // ... existing memo logic ...
     const query = searchQuery.toLowerCase();
     const filtered = portfolioItems.filter(item => 
       item.title.toLowerCase().includes(query) ||
@@ -59,6 +64,7 @@ export const PortfolioPage = () => {
         <div className="portfolio-container">
           
           <header className="portfolio-header">
+            {/* ... header content ... */}
             <span className="breadcrumb-label">
               <span className="breadcrumb-number">01</span>
               / Sequoia Genesis
@@ -175,6 +181,11 @@ export const PortfolioPage = () => {
         isOpen={!!selectedOutlier} 
         company={selectedOutlier} 
         onClose={() => setSelectedOutlier(null)} 
+      />
+      
+      <NewIdeaFlowModal 
+        isOpen={isNewIdeaOpen} 
+        onClose={() => setIsNewIdeaOpen(false)} 
       />
     </div>
   );
