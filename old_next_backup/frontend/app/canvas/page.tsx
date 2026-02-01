@@ -5,11 +5,13 @@ import InsightsPanel from "@/components/layout/InsightsPanel";
 
 export default function CanvasPage() {
   return (
-    <main className="h-screen w-screen relative overflow-hidden bg-venture-dark text-white font-sans">
+    <main className="h-screen w-screen flex flex-col overflow-hidden bg-forest-dark font-display">
       <TopNav />
-      <LeftRail />
-      <CanvasStage />
-      <InsightsPanel />
+      <div className="flex flex-1 overflow-hidden relative">
+        <LeftRail />
+        <CanvasStage />
+        <InsightsPanel />
+      </div>
     </main>
   );
 }

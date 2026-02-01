@@ -1,0 +1,49 @@
+.app-layout {
+  display: grid;
+  grid-template-rows: var(--nav-height) 1fr;
+  grid-template-columns: var(--toolbar-width) 1fr var(--insights-width);
+  grid-template-areas:
+    "nav nav nav"
+    "toolbar canvas insights";
+  height: 100vh;
+  width: 100vw;
+}
+
+.top-nav {
+  grid-area: nav;
+  background-color: var(--forest-dark);
+  border-bottom: 1px solid var(--forest-light);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.left-toolbar {
+  grid-area: toolbar;
+  background-color: var(--forest-dark);
+  border-right: 1px solid var(--forest-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  gap: 20px;
+  z-index: 9;
+}
+
+.canvas-area {
+  grid-area: canvas;
+  background-color: var(--forest-deep);
+  position: relative;
+  overflow: hidden;
+}
+
+.insights-panel {
+  grid-area: insights;
+  background-color: var(--forest-dark);
+  border-left: 1px solid var(--forest-light);
+  padding: 24px;
+  overflow-y: auto;
+  z-index: 9;
+}

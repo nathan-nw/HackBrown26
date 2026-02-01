@@ -1,0 +1,35 @@
+/* Canvas Background Grid */
+.react-flow__background {
+  background-color: var(--forest-deep);
+}
+
+.react-flow__controls {
+  box-shadow: none;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--forest-light);
+}
+
+.react-flow__controls-button {
+  background-color: var(--forest-dark);
+  border-bottom: 1px solid var(--forest-light);
+  color: var(--text-secondary);
+}
+
+.react-flow__controls-button:hover {
+  background-color: var(--forest-light);
+}
+
+.react-flow__controls-button svg {
+  fill: currentColor;
+}
+
+/* Custom Zoom Controls Position */
+.bottom-left-controls {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}

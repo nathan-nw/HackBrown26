@@ -1,0 +1,6 @@
+/* Global styles handled in theme.css and layout.css */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #051610; /* Fallback */
+}
