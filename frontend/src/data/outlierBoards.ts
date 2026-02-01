@@ -98,7 +98,7 @@ export const OUTLIER_BOARDS: Record<string, OutlierBoard> = {
   },
   'nvidia': {
     id: 'nvidia',
-    title: 'NVIDIA — 1993 Strategy',
+    title: 'Nvidia — 1993 Strategy',
     subtitle: 'Accelerated computing.',
     nodes: [
       { id: '1', type: 'paperNode', position: { x: 400, y: 100 }, data: { title: 'CORE LOOP', label: 'GPU Acceleration', sublabel: '3D Graphics for gaming and multimedia.', category: 'HARDWARE', wedge: 'Gaming', strategicFit: 96, marketRisk: 'High', progress: 100 } },

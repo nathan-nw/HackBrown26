@@ -87,7 +87,7 @@ export const OutlierModal = ({ isOpen, company, onClose }: OutlierModalProps) =>
                 <h2 className="outlier-modal-title">
                     <div 
                         style={{ width: 24, height: 24, fill: '#1A1A1A' }}
-                        dangerouslySetInnerHTML={{ __html: `<svg viewBox="0 0 24 24">${company.iconSvg}</svg>` }} 
+                        dangerouslySetInnerHTML={{ __html: company.iconSvg }} 
                     />
                     {company.name}
                     <span className="outlier-modal-badge">Sequoia Outlier</span>

@@ -23,7 +23,7 @@ export const OutliersBar = ({ onSelect }: OutliersBarProps) => {
           >
             <div 
               className="outlier-chip-icon"
-              dangerouslySetInnerHTML={{ __html: `<svg viewBox="0 0 24 24">${company.iconSvg}</svg>` }} 
+              dangerouslySetInnerHTML={{ __html: company.iconSvg }} 
             />
             <span className="outlier-chip-text">{company.name}</span>
           </button>
