@@ -106,7 +106,7 @@ export const LandingPage = () => {
           </div>
 
           <div className="animate-slide-up" style={{ animationDelay: '0.5s' }}>
-            <Link to="/planning" className="enter-button group">
+            <Link to="/portfolio" className="enter-button group">
               <span className="relative z-10 font-medium tracking-wide">Enter the Sandbox</span>
               <svg className="w-4 h-4 relative z-10 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path></svg>
               <div className="enter-button-overlay"></div>
