@@ -1,8 +1,12 @@
-import { Box, Settings, Search } from 'lucide-react';
+import { Box, Settings, Search, User } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/layout.css';
 import { Button } from './ui/Button';
 
 export const TopNav = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       alert("Asking VentureLabs AI: " + e.currentTarget.value);
@@ -10,17 +14,54 @@ export const TopNav = () => {
     }
   };
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <nav className="top-nav">
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white' }}>
+      <div 
+        style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', cursor: 'pointer' }}
+        onClick={() => navigate('/')}
+      >
         <Box size={24} color="var(--primary)" />
-        <span style={{ fontFamily: 'var(--font-headline)', fontSize: '18px', fontWeight: 700 }}>VentureLabs</span>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+          <span style={{ fontFamily: 'var(--font-headline)', fontSize: '18px', fontWeight: 700 }}>VentureLabs</span>
+          <span style={{ 
+            fontSize: '10px', 
+            border: '1px solid var(--text-secondary)', 
+            padding: '1px 4px', 
+            borderRadius: '2px',
+            color: 'var(--text-secondary)',
+            letterSpacing: '0.05em'
+          }}>OUTLIER</span>
+        </div>
       </div>
 
       <div style={{ display: 'flex', gap: '20px' }}>
-        <Button variant="ghost">Dashboard</Button>
-        <Button variant="ghost" style={{ color: 'var(--primary)' }}>Canvas</Button>
-        <Button variant="ghost">Team</Button>
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/portfolio')}
+          style={{ 
+            color: isActive('/portfolio') ? 'var(--primary)' : 'var(--text-secondary)',
+            borderBottom: isActive('/portfolio') ? '1px solid var(--primary)' : 'none',
+            borderRadius: 0,
+            paddingBottom: '4px'
+          }}
+        >
+          Portfolio
+        </Button>
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/planning')}
+          style={{ 
+             color: isActive('/planning') ? 'var(--primary)' : 'var(--text-secondary)',
+             borderBottom: isActive('/planning') ? '1px solid var(--primary)' : 'none',
+             borderRadius: 0,
+             paddingBottom: '4px'
+          }}
+        >
+          Canvas
+        </Button>
+        <Button variant="ghost" style={{ color: 'var(--text-secondary)' }}>Network</Button>
       </div>
 
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', maxWidth: '400px', margin: '0 20px' }}>
@@ -52,10 +93,21 @@ export const TopNav = () => {
       </div>
 
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <Button variant="primary" onClick={() => alert("Simulation UI coming next")}>Run Simulation</Button>
         <div style={{ width: '1px', height: '24px', background: 'var(--forest-light)', margin: '0 8px' }}></div>
         <Button variant="icon"><Settings size={20} /></Button>
-        <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--forest-light)', border: '1px solid var(--primary)' }}></div>
+        <div style={{ 
+          width: '32px', 
+          height: '32px', 
+          borderRadius: '50%', 
+          backgroundColor: 'var(--forest-light)', 
+          border: '1px solid var(--primary)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--primary)'
+        }}>
+          <User size={18} />
+        </div>
       </div>
     </nav>
   );
