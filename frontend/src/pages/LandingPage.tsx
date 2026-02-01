@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
 import '../styles/landing.css';
 
 export const LandingPage = () => {
@@ -61,8 +62,7 @@ export const LandingPage = () => {
       {/* Navigation - z-index: 50 */}
       <nav className="landing-nav">
         <div className="flex items-center gap-2 group nav-group cursor-pointer">
-          <div className="logo-circle">V</div>
-          <span className="logo-text">Sequoia Genesis</span>
+          <img src={logo} alt="Sequoia Genesis" style={{ height: '32px' }} />
         </div>
         <div className="flex items-center gap-8">
           {/* <a href="#" className="nav-link hidden md:block" style={{ display: 'none' }}>Manifesto</a>

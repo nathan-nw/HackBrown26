@@ -1,9 +1,10 @@
-import { Box, User, LogOut, ChevronDown, Copy, Check, X } from 'lucide-react';
+import { User, LogOut, ChevronDown, Copy, Check, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import '../styles/layout.css';
 import { Button } from './ui/Button';
 import { useAuth } from '../context/AuthContext';
+import logo from '../assets/logo.png';
 
 export const TopNav = () => {
   const location = useLocation();
@@ -55,7 +56,7 @@ export const TopNav = () => {
         style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--text-primary)', cursor: 'pointer' }}
         onClick={() => navigate('/')}
       >
-        <Box size={24} color="var(--primary)" />
+        <img src={logo} alt="Sequoia Genesis" style={{ height: '32px' }} />
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
           <span style={{ fontFamily: 'var(--font-headline)', fontSize: '18px', fontWeight: 700 }}>Sequoia Genesis</span>
         </div>
