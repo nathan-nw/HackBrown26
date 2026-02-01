@@ -12,15 +12,24 @@ import '../styles/portfolio.css';
 export const PortfolioPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedOutlier, setSelectedOutlier] = useState<OutlierCompany | null>(null);
+  const [sortBy, setSortBy] = useState<'fit' | 'validation'>('fit');
+  const [isSortOpen, setIsSortOpen] = useState(false);
 
   const filteredPortfolio = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return mockPortfolio.filter(item => 
+    const filtered = mockPortfolio.filter(item => 
       item.title.toLowerCase().includes(query) ||
       item.category.toLowerCase().includes(query) ||
       item.description.toLowerCase().includes(query)
     );
-  }, [searchQuery]);
+
+    return filtered.sort((a, b) => {
+      if (sortBy === 'fit') {
+        return b.strategicFit - a.strategicFit;
+      }
+      return b.validationProgress - a.validationProgress;
+    });
+  }, [searchQuery, sortBy]);
 
   return (
     <div className="portfolio-page">
@@ -53,10 +62,71 @@ export const PortfolioPage = () => {
                    <Filter size={14} />
                    Filter
                  </button>
-                 <button className="action-pill">
-                   <ArrowUpDown size={14} />
-                   Sort by Score
-                 </button>
+                 <div style={{ position: 'relative' }}>
+                   <button 
+                    className="action-pill" 
+                    onClick={() => setIsSortOpen(!isSortOpen)}
+                    style={{ minWidth: '180px', justifyContent: 'space-between' }}
+                   >
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                       <ArrowUpDown size={14} />
+                       Sort by: {sortBy === 'fit' ? 'Strategic Fit' : 'Validation Process'}
+                     </div>
+                   </button>
+                   
+                   {isSortOpen && (
+                     <div style={{
+                       position: 'absolute',
+                       top: '100%',
+                       right: 0,
+                       marginTop: '8px',
+                       background: '#1A1A1A',
+                       border: '1px solid rgba(255, 255, 255, 0.1)',
+                       borderRadius: '8px',
+                       padding: '4px',
+                       zIndex: 50,
+                       minWidth: '180px',
+                       boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                     }}>
+                       <button
+                         onClick={() => { setSortBy('fit'); setIsSortOpen(false); }}
+                         style={{
+                           display: 'block',
+                           width: '100%',
+                           textAlign: 'left',
+                           padding: '8px 12px',
+                           fontSize: '14px',
+                           color: sortBy === 'fit' ? 'white' : 'var(--text-secondary)',
+                           background: sortBy === 'fit' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                           border: 'none',
+                           borderRadius: '4px',
+                           cursor: 'pointer',
+                           fontFamily: 'var(--font-body)'
+                         }}
+                       >
+                         Strategic Fit
+                       </button>
+                       <button
+                         onClick={() => { setSortBy('validation'); setIsSortOpen(false); }}
+                         style={{
+                           display: 'block',
+                           width: '100%',
+                           textAlign: 'left',
+                           padding: '8px 12px',
+                           fontSize: '14px',
+                           color: sortBy === 'validation' ? 'white' : 'var(--text-secondary)',
+                           background: sortBy === 'validation' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                           border: 'none',
+                           borderRadius: '4px',
+                           cursor: 'pointer',
+                           fontFamily: 'var(--font-body)'
+                         }}
+                       >
+                         Validation Process
+                       </button>
+                     </div>
+                   )}
+                 </div>
               </div>
             </div>
             

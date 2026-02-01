@@ -29,23 +29,33 @@ export const TopNav = () => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '20px' }}>
+      <div style={{ flex: 1 }}>
+      </div>
+
+      <div style={{ display: 'flex', gap: '20px', marginRight: '32px' }}>
         <Button 
           variant="ghost" 
           onClick={() => navigate('/portfolio')}
           style={{ 
             color: isActive('/portfolio') ? 'var(--primary)' : 'var(--text-secondary)',
-            borderBottom: isActive('/portfolio') ? '1px solid var(--primary)' : 'none',
+            borderBottom: isActive('/portfolio') ? '1px solid var(--primary)' : '1px solid transparent',
             borderRadius: 0,
             paddingBottom: '4px'
           }}
         >
           Portfolio
         </Button>
-        <Button variant="ghost" style={{ color: 'var(--text-secondary)' }}>Network</Button>
-      </div>
-
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', maxWidth: '400px', margin: '0 20px' }}>
+        <Button 
+          variant="ghost" 
+          style={{ 
+            color: 'var(--text-secondary)',
+            borderBottom: '1px solid transparent',
+            borderRadius: 0,
+            paddingBottom: '4px'
+          }}
+        >
+          Library
+        </Button>
       </div>
 
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>

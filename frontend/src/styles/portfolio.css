@@ -1,20 +1,25 @@
 .portfolio-page {
-  /* Inherit fonts from global theme if not explicitly set here, but explicit is safer */
+  /* Inherit fonts from global theme */
   font-family: var(--font-body);
   color: white;
-  min-height: 100vh;
+  height: 100vh; /* Fixed height to viewport */
+  width: 100vw;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Prevent window scroll */
 }
 
-/* Background Grid */
+/* Background Grid - Scrollable Area */
 .grid-bg {
   background-color: var(--forest-deep);
   background-image: 
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
-  min-height: 100%;
+  flex: 1; /* Take remaining space */
+  overflow-y: auto; /* Enable scrolling */
+  overflow-x: hidden;
+  position: relative;
 }
 
 /* Page Container */
@@ -28,7 +33,7 @@
 
 /* Header Section */
 .portfolio-header {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 .breadcrumb-label {
