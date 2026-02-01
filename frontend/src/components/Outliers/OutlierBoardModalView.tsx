@@ -82,29 +82,37 @@ const BoardContent = ({ outlierId, onBack }: OutlierBoardModalViewProps) => {
             {/* Top Bar Overlay */}
             <Panel position="top-left" style={{ margin: '24px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '12px',
+                        background: 'rgba(255, 255, 255, 0.9)',
+                        padding: '8px 16px',
+                        borderRadius: '12px',
+                        border: '1px solid rgba(0,0,0,0.1)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    }}>
                         <button 
                             onClick={onBack}
                             style={{ 
-                                background: 'rgba(5, 22, 16, 0.8)', 
-                                border: '1px solid rgba(255,255,255,0.1)', 
+                                background: 'white', 
+                                border: '1px solid rgba(0,0,0,0.1)', 
                                 borderRadius: '8px',
                                 padding: '8px',
-                                color: 'white',
+                                color: 'var(--text-primary)',
                                 cursor: 'pointer',
                                 display: 'flex',
-                                alignItems: 'center',
-                                backdropFilter: 'blur(4px)'
+                                alignItems: 'center'
                             }}
                         >
                             <ChevronLeft size={20} />
                         </button>
                         <div>
-                            <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'white', margin: 0, fontFamily: 'var(--font-headline)' }}>
+                            <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#1A1A1A', margin: 0, fontFamily: 'var(--font-headline)' }}>
                                 {board.title}
                             </h2>
                             {board.subtitle && (
-                                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', margin: 0 }}>
+                                <p style={{ fontSize: '12px', color: '#64748B', margin: 0, fontWeight: 500 }}>
                                     {board.subtitle}
                                 </p>
                             )}
