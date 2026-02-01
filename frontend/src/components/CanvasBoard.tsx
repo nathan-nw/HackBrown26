@@ -133,7 +133,7 @@ const CanvasContent = () => {
       {/* Overlays positioned relative to the container */}
       <div style={{ 
         position: 'absolute', 
-        bottom: '24px', 
+        bottom: 0, 
         left: 0, 
         width: '100%', 
         display: 'flex', 
