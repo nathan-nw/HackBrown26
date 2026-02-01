@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { X } from 'lucide-react';
 import { REQUIRED_DECISIONS } from '../../data/requiredDecisions';
 import '../../styles/canvas-ui.css';
 
@@ -35,7 +36,12 @@ export const ChecklistPanel = ({ completedIds, onAddNode, onClose, isOpen }: Che
     <div className="checklist-panel" ref={panelRef}>
       <div className="checklist-header">
         <h3 className="checklist-title">Decision Checklist</h3>
-        <span className="checklist-progress">{percentage}% Complete</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span className="checklist-progress">{percentage}% Complete</span>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}>
+            <X size={16} />
+          </button>
+        </div>
       </div>
 
       <div className="checklist-content">

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import '../styles/theme.css';
 import '../styles/layout.css';
 import { TopNav } from '../components/TopNav';
-import { LeftToolbar } from '../components/LeftToolbar';
 import { InsightsPanel } from '../components/InsightsPanel';
 import { CanvasBoard } from '../components/CanvasBoard';
 
@@ -13,11 +12,14 @@ export const CanvasPage = () => {
     <div 
       className="app-layout" 
       style={{ 
-        gridTemplateColumns: `var(--toolbar-width) 1fr ${isInsightsOpen ? 'var(--insights-width)' : '50px'}` 
+        gridTemplateColumns: `1fr ${isInsightsOpen ? 'var(--insights-width)' : '50px'}`,
+        gridTemplateAreas: `
+          "nav nav"
+          "canvas insights"
+        `
       }}
     >
       <TopNav />
-      <LeftToolbar />
       <CanvasBoard />
       <InsightsPanel isOpen={isInsightsOpen} onToggle={() => setIsInsightsOpen(!isInsightsOpen)} />
     </div>

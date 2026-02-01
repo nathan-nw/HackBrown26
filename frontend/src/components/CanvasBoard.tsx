@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactFlow, { 
   Background, 
-  Controls, 
   ReactFlowProvider,
   useReactFlow,
   Panel
@@ -12,7 +11,7 @@ import { initialNodes, initialEdges } from '../data/mockCanvas';
 import { DarkNode, PaperNode } from './Nodes';
 import '../styles/canvas.css';
 import { Button } from './ui/Button';
-import { RefreshCcw, Maximize } from 'lucide-react';
+import { Maximize, Plus, Minus, ChevronUp, ChevronDown } from 'lucide-react';
 import { RequiredDecisionsBar } from './Canvas/RequiredDecisionsBar';
 import { ChecklistPanel } from './Canvas/ChecklistPanel';
 
@@ -22,9 +21,10 @@ const nodeTypes = {
 };
 
 const CanvasContent = () => {
-  const { fitView, addNodes, getNodes, project } = useReactFlow();
+  const { fitView, addNodes, getNodes, project, zoomIn, zoomOut } = useReactFlow();
   const nodes = getNodes(); // Reactive to flow changes
   const [isChecklistOpen, setIsChecklistOpen] = React.useState(false);
+  const [isControlsOpen, setIsControlsOpen] = React.useState(true);
 
   // Derive completed IDs from current nodes
   const completedIds = React.useMemo(() => {
@@ -93,7 +93,7 @@ const CanvasContent = () => {
       >
         <Background gap={20} color="#1A3326" />
         
-        <Panel position="bottom-center" style={{ marginBottom: '24px' }}>
+        <Panel position="bottom-center" style={{ marginBottom: '8px' }}>
           <RequiredDecisionsBar 
             completedIds={completedIds}
             onAddNode={(type) => handleAddNode(type)} 
@@ -111,15 +111,24 @@ const CanvasContent = () => {
           }}
         />
 
-        <Panel position="bottom-left" className="bottom-left-controls">
-           <Button variant="icon" onClick={() => fitView({ padding: 0.2 })} title="Fit View">
-             <Maximize size={20} />
-           </Button>
-           <Button variant="icon" title="Reset Layout">
-             <RefreshCcw size={20} />
+        <Panel position="bottom-left" className="bottom-left-controls" style={{ marginBottom: '80px', marginLeft: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+           {isControlsOpen && (
+             <>
+               <Button variant="icon" onClick={() => zoomIn()} title="Zoom In">
+                 <Plus size={20} />
+               </Button>
+               <Button variant="icon" onClick={() => zoomOut()} title="Zoom Out">
+                 <Minus size={20} />
+               </Button>
+               <Button variant="icon" onClick={() => fitView({ padding: 0.2 })} title="Fit View">
+                 <Maximize size={20} />
+               </Button>
+             </>
+           )}
+           <Button variant="icon" onClick={() => setIsControlsOpen(!isControlsOpen)} title={isControlsOpen ? "Hide Controls" : "Show Controls"}>
+             {isControlsOpen ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
            </Button>
         </Panel>
-        <Controls position="bottom-right" showInteractive={false} />
       </ReactFlow>
     </div>
   );
