@@ -6,6 +6,7 @@ import { TopNav } from '../components/TopNav';
 import { Filter, ArrowUpDown, Search } from 'lucide-react';
 import { OutliersBar } from '../components/Outliers/OutliersBar';
 import { OutlierModal } from '../components/Outliers/OutlierModal';
+import { NewIdeaFlowModal } from '../components/modals/NewIdeaFlowModal';
 import type { OutlierCompany } from '../data/mockOutliers';
 import '../styles/portfolio.css';
 
@@ -15,7 +16,10 @@ export const PortfolioPage = () => {
   const [sortBy, setSortBy] = useState<'fit' | 'validation'>('fit');
   const [isSortOpen, setIsSortOpen] = useState(false);
 
+  const [isNewIdeaOpen, setIsNewIdeaOpen] = useState(false);
+
   const filteredPortfolio = useMemo(() => {
+    // ... existing memo logic ...
     const query = searchQuery.toLowerCase();
     const filtered = mockPortfolio.filter(item => 
       item.title.toLowerCase().includes(query) ||
@@ -39,6 +43,7 @@ export const PortfolioPage = () => {
         <div className="portfolio-container">
           
           <header className="portfolio-header">
+            {/* ... header content ... */}
             <span className="breadcrumb-label">
               <span className="breadcrumb-number">01</span>
               / VENTURE LABS
@@ -138,7 +143,7 @@ export const PortfolioPage = () => {
           <OutliersBar onSelect={setSelectedOutlier} />
           
           <div className="portfolio-grid">
-            <CreateNewIdeaCard />
+            <CreateNewIdeaCard onClick={() => setIsNewIdeaOpen(true)} />
             {filteredPortfolio.map(item => (
               <PortfolioCard key={item.id} item={item} />
             ))}
@@ -151,6 +156,11 @@ export const PortfolioPage = () => {
         isOpen={!!selectedOutlier} 
         company={selectedOutlier} 
         onClose={() => setSelectedOutlier(null)} 
+      />
+      
+      <NewIdeaFlowModal 
+        isOpen={isNewIdeaOpen} 
+        onClose={() => setIsNewIdeaOpen(false)} 
       />
     </div>
   );
