@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lightbulb, Bolt, Settings as DesignServices, Code, ArrowRight, ArrowLeft, X } from 'lucide-react';
+import { Lightbulb, Bolt, Settings as DesignServices, Code, ArrowRight, ArrowLeft, X, Loader2 } from 'lucide-react';
 import { ModalBase } from '../ui/ModalBase';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/newIdeaFlow.css';
+import { callAI, type AIRequest } from '../../lib/aiClient';
 
 interface NewIdeaFlowModalProps {
   isOpen: boolean;
@@ -30,6 +31,9 @@ const INITIAL_DATA: FormData = {
   stage: null,
 };
 
+// Simple ID generator
+const generateId = () => Math.random().toString(36).substring(2, 15);
+
 export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => {
   const navigate = useNavigate();
   const { session } = useAuth();
@@ -37,14 +41,95 @@ export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => 
   const [data, setData] = useState<FormData>(INITIAL_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // AI State
+  const [pattern, setPattern] = useState<any | null>(null);
+  const [patternError, setPatternError] = useState<string | null>(null);
+  
+  const sessionId = useRef<string>(generateId());
+  const callId = useRef<number>(0);
+  const abortController = useRef<AbortController | null>(null);
+  const latestCallIdProcessed = useRef<number>(0);
+
   // Reset state when opening
   useEffect(() => {
     if (isOpen) {
       setStep(1);
       setData(INITIAL_DATA);
       setIsSubmitting(false);
+      setPattern(null);
+      setPatternError(null);
+      sessionId.current = generateId();
+      callId.current = 0;
+      latestCallIdProcessed.current = 0;
     }
   }, [isOpen]);
+
+  // AI Logic
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    // Only call if we have meaningful content
+    // Trigger if name/desc (step 1) or wedge (step 2) are present
+    const hasContent = data.name.length > 2 || data.description.length > 5 || data.wedge.length > 5;
+    
+    if (!hasContent) return;
+
+    // Debounce
+    const timer = setTimeout(() => {
+        performAICall();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [data.name, data.description, data.wedge, data.differentiation, isOpen]);
+
+  const performAICall = async () => {
+      // Cancel previous
+      if (abortController.current) {
+          abortController.current.abort();
+      }
+      abortController.current = new AbortController();
+
+      callId.current += 1;
+      const currentCallId = callId.current;
+
+      const payload = {
+          ideaDraft: {
+              name: data.name,
+              description: data.description,
+              wedge: data.wedge,
+              differentiation: data.differentiation
+          }
+      };
+
+      const request: AIRequest = {
+          tracker: {
+              sessionId: sessionId.current,
+              callId: currentCallId,
+              kind: 'pattern_match',
+              step: step,
+              ts: Date.now()
+          },
+          payload
+      };
+
+      try {
+          const response = await callAI(request, abortController.current.signal);
+          
+          if (response.tracker.callId > latestCallIdProcessed.current) {
+              latestCallIdProcessed.current = response.tracker.callId;
+              if (response.result) {
+                  setPattern(response.result);
+                  setPatternError(null);
+              }
+          }
+      } catch (err: any) {
+          if (err.name !== 'AbortError') {
+              // Only set error if it's not an abort
+              console.error("AI Error", err);
+              setPatternError("Couldn't load pattern match");
+          }
+      }
+  };
 
   const handleNext = () => {
     if (step === 1 && data.name && data.description) setStep(2);
@@ -92,51 +177,63 @@ export const NewIdeaFlowModal = ({ isOpen, onClose }: NewIdeaFlowModalProps) => 
   const renderPatternMatch = () => {
     if (step === 1) return null;
 
-    const content = step === 2 ? {
-      icon: 'psychology', 
-      letter: 'S',
-      title: 'The Narrow Wedge',
-      quote: <>Companies like <span style={{ fontWeight: 600, color: 'var(--color-forest-dark)' }}>Stripe</span> started by solving for individual developers, not the entire financial system. They nailed 7 lines of code before expanding.</>,
-      subtext: 'A sharp wedge cuts through market noise. A broad approach bounces off the surface.'
-    } : {
-      icon: 'category',
-      letter: 'P',
-      title: 'Category Definition',
-      quote: <>Defining your category correctly sets the competitive frame. <span style={{ fontWeight: 600, color: 'var(--color-forest-dark)' }}>AirBnB</span> wasn't just "lodging", it was a "Trust Platform".</>,
-      subtext: 'Positioning is not what you do to a product. Positioning is what you do to the mind of the prospect.'
-    };
-
     return (
       <div className="nif-sidebar">
         <div className="nif-sidebar-blur"></div>
         <div className="nif-sidebar-content">
           <div className="nif-sidebar-header">
-             <Lightbulb size={18} />
-             <span className="nif-sidebar-label">Pattern Match</span>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Lightbulb size={18} className="nif-sidebar-icon-pulse" />
+                <span className="nif-sidebar-label">Pattern Match</span>
+             </div>
+             {/* Constant Spinner */}
+             <Loader2 size={16} className="nif-spinner-constant" />
           </div>
+          
           <div>
-            <div className="nif-sidebar-card">
-              <div className="nif-sidebar-icon">
-                <span>{content.letter}</span>
-              </div>
-              <h4 className="nif-sidebar-title">{content.title}</h4>
-              <p className="nif-sidebar-text">
-                {content.quote}
-              </p>
-            </div>
-            <div className="nif-sidebar-footer">
-              <p className="nif-sidebar-label" style={{ marginBottom: '0.5rem' }}>Why this matters</p>
-              <p className="nif-sidebar-text" style={{ fontStyle: 'italic', fontFamily: 'var(--font-headline)' }}>
-                {content.subtext}
-              </p>
-            </div>
+            {!pattern ? (
+                 <div className="nif-sidebar-card nif-sidebar-card-loading">
+                    <p className="nif-sidebar-text-muted">
+                        {patternError || "Analyzing your wedge strategy..."}
+                    </p>
+                 </div>
+            ) : (
+                <div className="nif-sidebar-results fade-in">
+                    {/* Narrow Match */}
+                    <div className="nif-match-block">
+                        <div className="nif-match-header">
+                             <span className="nif-match-badge narrow">Narrow</span>
+                             <span className="nif-match-company">{pattern.narrow.company}</span>
+                        </div>
+                        <p className="nif-sidebar-text-sm">{pattern.narrow.sentence}</p>
+                    </div>
+
+                    {/* Wide Match */}
+                    <div className="nif-match-block" style={{ marginTop: '12px' }}>
+                        <div className="nif-match-header">
+                             <span className="nif-match-badge wide">Wide</span>
+                             <span className="nif-match-company">{pattern.wide.company}</span>
+                        </div>
+                        <p className="nif-sidebar-text-sm">{pattern.wide.sentence}</p>
+                    </div>
+
+                     {/* Why Matches */}
+                    <div className="nif-sidebar-footer" style={{ marginTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '12px' }}>
+                        <p className="nif-sidebar-label" style={{ marginBottom: '0.25rem', fontSize: '0.75rem' }}>Why this matters</p>
+                        <p className="nif-sidebar-text" style={{ fontStyle: 'italic', fontFamily: 'var(--font-headline)', fontSize: '0.85rem' }}>
+                            {pattern.why}
+                        </p>
+                    </div>
+                </div>
+            )}
+           
           </div>
         </div>
          <div className="nif-sidebar-graphic">
             <svg fill="none" height="40" viewBox="0 0 40 40" width="40" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="20" r="19" stroke="#0B1D15" strokeWidth="1"></circle>
-                <circle cx="20" cy="20" r="12" stroke="#0B1D15" strokeWidth="1"></circle>
-                <circle cx="20" cy="20" fill="#0B1D15" r="5"></circle>
+                <circle cx="20" cy="20" r="19" stroke="#0B1D15" strokeWidth="1" opacity="0.1"></circle>
+                <circle cx="20" cy="20" r="12" stroke="#0B1D15" strokeWidth="1" opacity="0.2"></circle>
+                <circle cx="20" cy="20" fill="#0B1D15" r="2" className="nif-pulse-dot"></circle>
             </svg>
         </div>
       </div>

@@ -1,0 +1,22 @@
+export const portfolioAllowlist = [
+  "Stripe",
+  "Airbnb",
+  "DoorDash",
+  "Instacart",
+  "Zoom",
+  "WhatsApp",
+  "Nvidia",
+  "Unity",
+  "Houzz",
+  "Dropbox",
+  "Apple",
+  "Google",
+  "YouTube",
+  "Instagram",
+  "LinkedIn",
+  "PayPal",
+  "Reddit",
+  "Square",
+  "Tumblr",
+  "Yahoo"
+];
