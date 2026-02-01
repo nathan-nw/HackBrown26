@@ -1,9 +1,16 @@
 :root {
   /* Colors */
-  --primary: #13ec5b;
-  --forest-dark: #0B1D15;
-  --forest-deep: #051610;
-  --forest-light: #1A3326;
+  --primary: #00854A;       /* Sequoia Forest Green */
+  --forest-dark: #0B1D15;   /* Legacy ref */
+  --forest-deep: #051610;   /* Legacy ref */
+  --forest-light: #1A3326;  /* Legacy ref */
+  
+  /* Landing Page Specific Colors */
+  --bg-light: #0E1C15;      /* Deep Duller Forest Green (User Requested) */
+  --bg-dark: #050B08;       /* Darker variant */
+  --text-white: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.65);
+
   --paper: #F5F5F7;
   --text-secondary: #9CABA3;
   --text-primary: #FFFFFF;
@@ -15,8 +22,9 @@
   --shadow-paper: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
 
   /* Typography */
-  --font-headline: 'Noto Serif', serif;
-  --font-body: 'Manrope', sans-serif;
+  --font-headline: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-interface: 'Manrope', sans-serif;
 
   /* Layout */
   --nav-height: 60px;
@@ -29,10 +37,23 @@ body {
   padding: 0;
   background-color: var(--forest-deep);
   color: var(--text-primary);
-  font-family: var(--font-body);
+  font-family: var(--font-interface);
   -webkit-font-smoothing: antialiased;
   height: 100vh;
   overflow: hidden;
+}
+
+/* Landing Page Override */
+body.landing-body {
+  background-color: var(--bg-light);
+  height: auto;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+body.landing-body.dark {
+  background-color: var(--bg-dark);
 }
 
 h1, h2, h3, h4, h5, h6 {
