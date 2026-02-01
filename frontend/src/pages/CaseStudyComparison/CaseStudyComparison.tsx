@@ -23,7 +23,7 @@ export const CaseStudyComparison = () => {
   const isComplete = leftCaseId && rightCaseId;
 
   const handleExport = () => {
-    alert("Export Report feature coming soon!");
+    window.print();
   };
 
   return (

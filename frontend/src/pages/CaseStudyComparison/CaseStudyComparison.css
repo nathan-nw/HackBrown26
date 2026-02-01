@@ -210,3 +210,56 @@
     gap: 32px;
   }
 }
+
+/* Print Styles */
+@media print {
+  /* Set background color adjustment */
+  body, html, .csc-page-container {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: var(--csc-bg-cream) !important;
+  }
+
+  /* Hide navigation, buttons and selection view artifacts */
+  nav, 
+  .csc-header button, 
+  div[style*="position: sticky"],
+  button[style*="text-decoration: underline"],
+  .csc-column button {
+    display: none !important;
+  }
+
+  /* Ensure the container width is appropriate for standard paper */
+  .csc-container {
+    padding-top: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* Keep comparison side-by-side on print */
+  .csc-comp-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 40px !important;
+  }
+
+  .csc-comp-divider {
+    display: block !important;
+    left: 50% !important;
+  }
+
+  /* Avoid breaking cards across pages */
+  .csc-radar-card, 
+  .csc-strategy-card, 
+  .csc-insight-card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Add some margin to the bottom of the page */
+  footer {
+    display: flex !important;
+    position: relative;
+    bottom: 0;
+  }
+}
