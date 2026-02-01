@@ -51,7 +51,7 @@ const BoardContent = ({ outlierId, onBack }: OutlierBoardModalViewProps) => {
             defaultNodes={nodes}
             defaultEdges={edges}
             nodeTypes={nodeTypes}
-            nodesDraggable={false}
+            nodesDraggable={true}
             nodesConnectable={false}
             elementsSelectable={true}
             zoomOnDoubleClick={false}
