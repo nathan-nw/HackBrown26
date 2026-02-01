@@ -18,8 +18,24 @@ const nodeTypes = {
   paperNode: PaperNode,
 };
 
+import { BottomBar } from './BottomBar';
+
 const CanvasContent = () => {
-  const { fitView } = useReactFlow();
+  const { fitView, addNodes } = useReactFlow();
+
+  const handleAddNode = (type: string) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    addNodes({
+      id,
+      type: 'darkNode',
+      position: { x: window.innerWidth / 3 + Math.random() * 100, y: window.innerHeight / 3 + Math.random() * 100 },
+      data: { 
+        title: type, 
+        label: `New ${type} block.`,
+        type: type.toUpperCase() 
+      },
+    });
+  };
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
@@ -32,7 +48,9 @@ const CanvasContent = () => {
         maxZoom={2}
       >
         <Background gap={20} color="#1A3326" />
-        {/* Custom Controls position if needed, or default */}
+        <Panel position="bottom-center">
+          <BottomBar onAddNode={handleAddNode} />
+        </Panel>
         <Panel position="bottom-left" className="bottom-left-controls">
            <Button variant="icon" onClick={() => fitView({ padding: 0.2 })} title="Fit View">
              <Maximize size={20} />
