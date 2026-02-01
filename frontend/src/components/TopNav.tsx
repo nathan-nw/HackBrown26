@@ -18,14 +18,6 @@ export const TopNav = () => {
         <Box size={24} color="var(--primary)" />
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
           <span style={{ fontFamily: 'var(--font-headline)', fontSize: '18px', fontWeight: 700 }}>VentureLabs</span>
-          <span style={{ 
-            fontSize: '10px', 
-            border: '1px solid var(--text-secondary)', 
-            padding: '1px 4px', 
-            borderRadius: '2px',
-            color: 'var(--text-secondary)',
-            letterSpacing: '0.05em'
-          }}>OUTLIER</span>
         </div>
       </div>
 
@@ -33,10 +25,10 @@ export const TopNav = () => {
       </div>
 
       <div style={{ display: 'flex', gap: '20px', marginRight: '32px' }}>
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           onClick={() => navigate('/portfolio')}
-          style={{ 
+          style={{
             color: isActive('/portfolio') ? 'var(--primary)' : 'var(--text-secondary)',
             borderBottom: isActive('/portfolio') ? '1px solid var(--primary)' : '1px solid transparent',
             borderRadius: 0,
