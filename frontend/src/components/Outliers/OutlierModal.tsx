@@ -1,7 +1,8 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import type { OutlierCompany } from '../../data/mockOutliers';
 import { PortfolioCard } from '../Portfolio/PortfolioCard';
+import { OutlierBoardModalView } from './OutlierBoardModalView';
 import '../../styles/outliers.css';
 
 interface OutlierModalProps {
@@ -12,6 +13,14 @@ interface OutlierModalProps {
 
 export const OutlierModal = ({ isOpen, company, onClose }: OutlierModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [viewMode, setViewMode] = useState<'summary' | 'board'>('summary');
+
+  // Reset view mode when modal opens/closes
+  useEffect(() => {
+    if (isOpen) {
+        setViewMode('summary');
+    }
+  }, [isOpen]);
 
   // Esc key and scroll lock
   useEffect(() => {
@@ -42,6 +51,33 @@ export const OutlierModal = ({ isOpen, company, onClose }: OutlierModalProps) =>
 
   if (!isOpen || !company) return null;
 
+  // Board View Mode
+  if (viewMode === 'board') {
+      return (
+        <div className="outlier-modal-overlay" onClick={handleOverlayClick}>
+            <div 
+                className="outlier-modal-content" 
+                ref={modalRef}
+                style={{ 
+                    maxWidth: '1200px', 
+                    height: '90vh', 
+                    maxHeight: '800px', 
+                    padding: 0, 
+                    display: 'flex', 
+                    overflow: 'hidden',
+                    background: '#051610'
+                }}
+            >
+                <OutlierBoardModalView 
+                    outlierId={company.id} 
+                    onBack={() => setViewMode('summary')}
+                />
+            </div>
+        </div>
+      );
+  }
+
+  // Summary View Mode (Default)
   return (
     <div className="outlier-modal-overlay" onClick={handleOverlayClick}>
       <div className="outlier-modal-content" ref={modalRef}>
@@ -79,7 +115,13 @@ export const OutlierModal = ({ isOpen, company, onClose }: OutlierModalProps) =>
 
         <div className="outlier-modal-footer">
             <button className="btn-secondary" onClick={onClose}>Close</button>
-            <button className="btn-secondary" style={{ background: 'var(--primary)', color: 'white', border: 'none' }}>View Canvas</button>
+            <button 
+                className="btn-secondary" 
+                style={{ background: 'var(--primary)', color: 'white', border: 'none' }}
+                onClick={() => setViewMode('board')}
+            >
+                View Canvas
+            </button>
         </div>
       </div>
     </div>
